@@ -1,0 +1,10 @@
+*.o
+*.d
+Megaphone
+obj
+*.swp
+*.swo
+Account
+PhoneBook
+.vscode
+*.log
