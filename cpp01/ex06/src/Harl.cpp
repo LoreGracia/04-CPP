@@ -39,15 +39,15 @@ void Harl::complain( std::string level )
 		std::cout << "\033[31mOptions: DEBUG , INFO , WARNING , ERROR\033[0m" << std::endl;
 	switch (i)
 	{
-	case 0:
-		(this->*res[i++])();
-	case 1:
-		(this->*res[i++])();
-	case 2:
-		(this->*res[i++])();
-	case 3:
-		(this->*res[i++])();
-	default:
-		break;
+		case 0:
+			(this->*res[i++])();
+		case 1:
+			(this->*res[i++])();
+		case 2:
+			(this->*res[i++])();
+		case 3:
+			(this->*res[i++])();
+		default:
+			break;
 	}
 }
