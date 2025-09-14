@@ -6,11 +6,12 @@
 /*   By: lgracia- <lgracia-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 16:18:30 by lgracia-          #+#    #+#             */
-/*   Updated: 2025/09/06 17:21:39 by lgracia-         ###   ########.fr       */
+/*   Updated: 2025/09/14 14:10:14 by lgracia-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+#ifndef ZOMBIE_HPP
+#define ZOMBIE_HPP
 
 #include <string>
 #include <iostream>
@@ -24,3 +25,4 @@ class	Zombie
 		~Zombie();
 		void announce( void );
 };
+#endif

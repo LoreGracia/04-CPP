@@ -8,4 +8,4 @@ HumanA::HumanA(std::string name, Weapon& weapon)
 }
 
 HumanA::~HumanA()
-{;}
+{ ; }
