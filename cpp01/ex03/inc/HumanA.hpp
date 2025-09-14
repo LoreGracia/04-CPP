@@ -8,6 +8,6 @@ class HumanA
 		Weapon&		weapon;
 	public:
 		HumanA(std::string name, Weapon& weapon);
-		~HumanA() { ; };
-		void	attack() { std::cout << this->name << " attacks with their " << this->weapon.getType() << std::endl; };
-};
+		~HumanA();
+		void	attack();
+	};

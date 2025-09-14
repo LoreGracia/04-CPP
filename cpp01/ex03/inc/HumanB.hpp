@@ -8,7 +8,7 @@ class HumanB
 		Weapon*		weapon;
 	public:
 		HumanB(std::string name);
-		~HumanB() { ; };
-		void	setWeapon(Weapon& weapon) { this->weapon = &weapon; };
-		void	attack() { std::cout << this->name << " attacks with their " << this->weapon->getType() << std::endl; };
+		~HumanB();
+		void	setWeapon(Weapon& weapon);
+		void	attack();
 };
