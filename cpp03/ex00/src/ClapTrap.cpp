@@ -3,7 +3,7 @@
 ClapTrap::ClapTrap()
 	: name("BOB"), healthP(10), energyP(10), attackP(0)
 {
-	std::cout << "\033[34mScavTrap created\033[0m" << std::endl;
+	std::cout << "\033[34mClapTrap created\033[0m" << std::endl;
 }
 
 ClapTrap::ClapTrap(std::string name)
