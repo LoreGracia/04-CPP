@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 		{
 			buff.erase(i, s1.size());
 			buff.insert(i, s2);
+			i += s1.size();
 		}
 		if (buff.empty())
 			break;
