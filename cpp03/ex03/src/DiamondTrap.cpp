@@ -11,8 +11,8 @@ DiamondTrap::DiamondTrap()
 
 DiamondTrap::DiamondTrap(std::string name)
 {
-	ClapTrap::name = name + "_clap_name";
 	this->name = name;
+	ClapTrap::name = name + "_clap_name";
 	healthP = FragTrap::healthP;
 	energyP = ScavTrap::energyP;
 	attackP = FragTrap::attackP;

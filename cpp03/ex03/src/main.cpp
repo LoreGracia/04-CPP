@@ -8,5 +8,6 @@ b.beRepaired(10);
 a.guardGate();
 a.highFivesGuys();
 b.whoAmI();
+a.whoAmI();
 return 0;
 }
