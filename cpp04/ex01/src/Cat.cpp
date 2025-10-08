@@ -28,3 +28,18 @@ Cat::~Cat()
 	delete this->brain;
 	std::cout << "\033[34m" << this->type << " destructor called\033[0m" << std::endl;
 }
+
+std::string Cat::getThought(int idx)
+{
+	return brain->getThought(idx);
+}
+
+Brain *Cat::getBrain()
+{
+	return brain;
+}
+
+void Cat::setThought(std::string idea, int idx)
+{
+	brain->setThought(idea, idx);
+}

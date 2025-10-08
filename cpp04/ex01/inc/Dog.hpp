@@ -13,5 +13,8 @@ class	Dog : public Animal
 		Dog(const Dog &other);
 		Dog &operator=(const Dog &other);
 		~Dog();
+		Brain *getBrain();
+		std::string getThought(int idx);
+		void setThought(std::string idea, int idx);
 };
 #endif

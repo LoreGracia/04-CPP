@@ -28,3 +28,8 @@ Dog::~Dog()
 	delete brain;
 	std::cout << "\033[34m" << this->type << " destructor called\033[0m"  << std::endl;
 }
+
+void Dog::makeSound() const
+{
+	std::cout << "*" << this->type << " noise*" << std::endl;
+}

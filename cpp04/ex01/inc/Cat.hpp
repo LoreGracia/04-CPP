@@ -13,5 +13,8 @@ class	Cat : public Animal
 		Cat(const Cat &other);
 		Cat &operator=(const Cat &other);
 		~Cat();
+		Brain *getBrain();
+		std::string getThought(int idx);
+		void setThought(std::string idea, int idx);
 };
 #endif

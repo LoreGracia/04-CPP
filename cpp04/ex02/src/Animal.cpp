@@ -32,11 +32,6 @@ A_Animal::~A_Animal()
 	std::cout << "\033[34m" << "A_Animal destructor called\033[0m" << std::endl;
 }
 
-void A_Animal::makeSound() const
-{
-	std::cout << "*" << this->type << " noise*" << std::endl;
-}
-
 std::string	A_Animal::getType() const
 {
 	return (this->type);

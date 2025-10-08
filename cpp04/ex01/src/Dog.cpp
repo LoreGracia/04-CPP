@@ -28,3 +28,13 @@ Dog::~Dog()
 	delete brain;
 	std::cout << "\033[34m" << this->type << " destructor called\033[0m"  << std::endl;
 }
+
+Brain *Dog::getBrain()
+{
+	return brain;
+}
+
+void Dog::setThought(std::string idea, int idx)
+{
+	brain->setThought(idea, idx);
+}

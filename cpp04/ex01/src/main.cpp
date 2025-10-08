@@ -13,13 +13,17 @@ int main()
 	}
 	std::cout << std::endl;
 	{
-		Animal* j = new Dog();
-		Animal* i = new Cat();
-		Animal* k = new Animal(*i);
-		delete j;
-		delete i;
-		k->getType();//should not work
-		delete k;
+		Cat* cat = new Cat();
+		cat->setThought("I hate dogs", 0);
+		Cat* copycat = new Cat(*cat);
+		std::cout << cat->getBrain() << std::endl;
+		std::cout << cat->getThought(0) << std::endl;
+		delete cat;
+		std::cout << copycat->getThought(0) << std::endl;
+		copycat->setThought("I love dogs", 0);
+		std::cout << copycat->getThought(0) << std::endl;//should not be the same
+		std::cout << copycat->getBrain() << std::endl;
+		delete copycat;
 	}
 	std::cout << std::endl;
 	{

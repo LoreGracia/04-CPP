@@ -28,3 +28,8 @@ Cat::~Cat()
 	delete this->brain;
 	std::cout << "\033[34m" << this->type << " destructor called\033[0m" << std::endl;
 }
+
+void Cat::makeSound() const
+{
+	std::cout << "*" << this->type << " noise*" << std::endl;
+}
