@@ -2,7 +2,9 @@
 
 AForm::AForm()
 	: name("default"), sign(false), grade_exect(150), grade_sign(150)
-{}
+{
+	std::cout << "\033[34mAForm " << this->name << " constructor called\033[0m" << std::endl;
+}
 
 AForm::AForm(std::string name, int ext, int sign)
 	: name(name), sign(false), grade_exect(ext), grade_sign(sign)
@@ -16,7 +18,9 @@ AForm::AForm(std::string name, int ext, int sign)
 
 AForm::AForm(AForm &other)
 	: name(other.name), sign(other.sign), grade_exect(other.grade_exect), grade_sign(other.grade_sign)
-{}
+{
+	std::cout << "\033[34mAForm " << this->name << " copy constructor called\033[0m" << std::endl;
+}
 
 AForm &AForm::operator=(AForm &other)
 {
@@ -28,7 +32,9 @@ AForm &AForm::operator=(AForm &other)
 }
 
 AForm::~AForm()
-{}
+{
+	std::cout << "\033[34mAForm " << this->name << " destructor called\033[0m" << std::endl;
+}
 
 std::string AForm::getName() const {return name;}
 int AForm::getGradeExect() const {return grade_exect;}
@@ -72,3 +78,9 @@ void AForm::beSigned(Bureaucrat *bureaucrat)
 	}
 }
 
+void AForm::execute(Bureaucrat const & executor) const
+{
+	if (executor.getGrade() > this->grade_exect)
+		throw AForm::GradeTooLowException();
+	behaviour();
+}

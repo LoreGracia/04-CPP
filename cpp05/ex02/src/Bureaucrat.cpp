@@ -58,7 +58,7 @@ void Bureaucrat::decrement(int value)
 
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat)
 {
-	out << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade() << std::endl;
+	out << bureaucrat.getName() << ", bureaucrat is now grade " << bureaucrat.getGrade() << std::endl;
 	return (out);
 }
 
@@ -85,5 +85,18 @@ void Bureaucrat::signForm(AForm& form)
 	catch (std::exception& e)
 	{
 		std::cout << this->name << " couldn't sign " << form.getName() << " because " << e.what() << std::endl;
+	}
+}
+
+void Bureaucrat::executeForm(AForm const & form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cerr << this->name << " executed " << form.getName() << '\n';
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << this->name << " couldn't execute " << form.getName() << ". " << e.what() << '\n';
 	}
 }

@@ -2,7 +2,7 @@ FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
 
 NAME = Bureaucrat
 
-SRC = main.cpp Bureaucrat.cpp Form.cpp
+SRC = main.cpp Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp
 
 DSRC = $(addprefix src/, $(SRC))
 

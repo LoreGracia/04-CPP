@@ -2,7 +2,9 @@
 
 Form::Form()
 	: name("default"), sign(false), grade_exect(150), grade_sign(150)
-{}
+{
+	std::cout << "\033[34mForm " << this->name << " constructor called\033[0m" << std::endl;
+}
 
 Form::Form(std::string name, int ext, int sign)
 	: name(name), sign(false), grade_exect(ext), grade_sign(sign)
@@ -16,7 +18,9 @@ Form::Form(std::string name, int ext, int sign)
 
 Form::Form(Form &other)
 	: name(other.name), sign(other.sign), grade_exect(other.grade_exect), grade_sign(other.grade_sign)
-{}
+{
+	std::cout << "\033[34mForm " << this->name << " copy constructor called\033[0m" << std::endl;
+}
 
 Form &Form::operator=(Form &other)
 {
@@ -28,7 +32,9 @@ Form &Form::operator=(Form &other)
 }
 
 Form::~Form()
-{}
+{
+	std::cout << "\033[34mForm " << this->name << " destructor called\033[0m" << std::endl;
+}
 
 std::string Form::getName() const {return name;}
 int Form::getGradeExect() const {return grade_exect;}

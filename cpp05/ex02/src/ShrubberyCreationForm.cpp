@@ -1,73 +1,60 @@
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm()
-	: name("default"), sign(false), grade_exect(137), grade_sign(145)
-{}
+	: AForm("default", 137, 145)
+{
+	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " constructor called\033[0m" << std::endl;
+}
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string name)
-	: name(name), sign(false), grade_exect(137), grade_sign(145)
+	: AForm(name, 137, 145)
 {
-	std::cout << "\033[34mShrubberyCreationForm " << this->name << " constructor called\033[0m" << std::endl;
-	if (ext > 150 || sign > 150)
-		throw GradeTooLowException();
-	else if (ext < 1 || sign < 1)
-		throw GradeTooHighException();
+	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(ShrubberyCreationForm &other)
-	: name(other.name), sign(other.sign), grade_exect(other.grade_exect), grade_sign(other.grade_sign)
-{}
+	: AForm(other)
+{
+	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " copy constructor called\033[0m" << std::endl;
+}
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=(ShrubberyCreationForm &other)
 {
 	if (this != &other)
-	{
-		sign = other.sign;
-	}
-	return *this;
+		*this = other;
+	return (*this);
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
-{}
-
-std::string ShrubberyCreationForm::getName() const {return name;}
-int ShrubberyCreationForm::getGradeExect() const {return grade_exect;}
-int ShrubberyCreationForm::getGradeSign() const {return grade_sign;}
-bool ShrubberyCreationForm::getSign() const {return sign;}
-
-ShrubberyCreationForm::GradeTooHighException::GradeTooHighException()
-	: msg("Grade too high")
-{}
-
-ShrubberyCreationForm::GradeTooLowException::GradeTooLowException()
-	: msg("Grade too low")
-{}
-
-const char* ShrubberyCreationForm::GradeTooHighException::what() const throw()
 {
-	return msg;
+	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " destructor called\033[0m" << std::endl;
 }
 
-const char* ShrubberyCreationForm::GradeTooLowException::what() const throw()
+void ShrubberyCreationForm::behaviour() const
 {
-	return msg;
-}
-
-std::ostream& operator<<(std::ostream& out, const ShrubberyCreationForm& form)
-{
-	out << "Name: " << form.getName() << std::endl;
-	out << "Signed: " << form.getSign() << std::endl;
-	out << "Grade for signing: " << form.getGradeSign() << std::endl;
-	out << "Grade for execution: " << form.getGradeExect() << std::endl;
-	return out;
-}
-
-void ShrubberyCreationForm::beSigned(Bureaucrat *bureaucrat)
-{
-	if (bureaucrat->getGrade() <= this->grade_sign)
-		this->sign = true;
-	else
+	std::string f_name(this->getName() + "_shrubbery");
+	std::ofstream f(f_name.c_str());
+	if (!f)
+		throw "Unable to create file";
+	srand(time(NULL));
+	int fo= rand() % MAX;
+	switch (fo)
 	{
-		throw GradeTooLowException();
+	case 1:
+		f << AUTUM;
+		break;
+	case 2:
+		f << THREE;
+		break;
+	case 3:
+		f << SQUIRREL;
+		break;
+	case 4:
+		f << BONSAI;
+		break;
+	default:
+		f << TREE;
+		break;
 	}
+	f.close();
 }
