@@ -10,6 +10,7 @@
 class RobotomyRequestForm : virtual public AForm
 {
 	private:
+		std::string target;
 		class FailedRobotomyException : public std::exception
 		{
 			private:

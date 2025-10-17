@@ -1,13 +1,13 @@
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm()
-	: AForm("default", 137, 145)
+	: AForm("ShrubberyCreationForm", 137, 145), target(name)
 {
 	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string name)
-	: AForm(name, 137, 145)
+	: AForm("ShrubberyCreationForm", 137, 145)
 {
 	std::cout << "\033[34mShrubberyCreationForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }

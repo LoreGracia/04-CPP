@@ -1,13 +1,13 @@
 #include "PresidentialPardonForm.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm()
-	: AForm("default", 5, 25)
+	: AForm("PresidentialPardonForm", 5, 25)
 {
 	std::cout << "\033[34mPresidentialPardonForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(std::string name)
-	: AForm(name, 5, 25)
+	: AForm("PresidentialPardonForm", 5, 25), target(name)
 {
 	std::cout << "\033[34mPresidentialPardonForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }

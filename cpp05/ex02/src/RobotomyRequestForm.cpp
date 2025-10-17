@@ -1,13 +1,13 @@
 #include "RobotomyRequestForm.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm()
-	: AForm("default", 45, 72)
+	: AForm("RobotomyRequestForm", 45, 72)
 {
 	std::cout << "\033[34mRobotomyRequestForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(std::string name)
-	: AForm(name, 54, 72)
+	: AForm("RobotomyRequestForm", 54, 72), target(name)
 {
 	std::cout << "\033[34mRobotomyRequestForm " << this->getName() << " constructor called\033[0m" << std::endl;
 }
