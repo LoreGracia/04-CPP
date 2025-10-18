@@ -59,7 +59,7 @@ int main()
 	
 	try
 	{
-		Bureaucrat harl("Harl", 150);
+		Bureaucrat harl("Harltree", 150);
 		ShrubberyCreationForm form("That's not shrubbery");
 		std::cout << form << std::endl;
 		std::cout << harl << std::endl;
@@ -80,7 +80,7 @@ int main()
 	
 	try
 	{
-		Bureaucrat harl("Harl", 15);
+		Bureaucrat harl("Harlrobot", 15);
 		RobotomyRequestForm form("Frank");
 		std::cout << form << std::endl;
 		std::cout << harl << std::endl;
@@ -96,7 +96,7 @@ int main()
 	std::cout << "________________________________________________________________" << std::endl;
 	try
 	{
-		Bureaucrat harl("Harl", 15);
+		Bureaucrat harl("Pardon", 26);
 		PresidentialPardonForm form("Frank");
 		std::cout << form << std::endl;
 		std::cout << harl << std::endl;
@@ -104,9 +104,23 @@ int main()
 		std::cout << harl << std::endl;
 		std::cout << form << std::endl;
 		harl.executeForm(form);
-		harl.increment(10);
+		harl.increment(25);
+		harl.signForm(form);
 		std::cout << harl << std::endl;
 		std::cout << form << std::endl;
+		harl.executeForm(form);
+	}
+	catch (std::exception& e)
+	{
+		std::cout << e.what() << std::endl;
+	}
+	std::cout << "________________________________________________________________" << std::endl;
+	try
+	{
+		Bureaucrat harl("Unexecutable", 5);
+		PresidentialPardonForm form("Frank");
+		std::cout << form << std::endl;
+		std::cout << harl << std::endl;
 		harl.executeForm(form);
 	}
 	catch (std::exception& e)

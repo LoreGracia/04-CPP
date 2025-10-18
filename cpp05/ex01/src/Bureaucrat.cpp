@@ -18,7 +18,9 @@ Bureaucrat::Bureaucrat(std::string const name, int grade)
 
 Bureaucrat::Bureaucrat(const Bureaucrat &other)
 	: name(other.name), grade(other.grade)
-{}
+{
+	std::cout << "\033[34mBureaucrat " << this->name << " copy constructor called\033[0m" << std::endl;
+}
 
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 {
@@ -30,7 +32,9 @@ Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
 }
 
 Bureaucrat::~Bureaucrat()
-{}
+{
+	std::cout << "\033[34mBureaucrat " << this->name << " destructor called\033[0m" << std::endl;
+}
 
 std::string Bureaucrat::getName() const
 {

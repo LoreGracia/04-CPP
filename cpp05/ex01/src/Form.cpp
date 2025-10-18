@@ -70,11 +70,7 @@ std::ostream& operator<<(std::ostream& out, const Form& form)
 
 void Form::beSigned(Bureaucrat *bureaucrat)
 {
-	if (bureaucrat->getGrade() <= this->grade_sign)
-		this->sign = true;
-	else
-	{
+	if (bureaucrat->getGrade() > this->grade_sign)
 		throw GradeTooLowException();
-	}
+	this->sign = true;
 }
-
