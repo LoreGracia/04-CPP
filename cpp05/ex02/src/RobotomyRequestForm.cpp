@@ -36,7 +36,6 @@ void RobotomyRequestForm::behaviour() const
 	{
 		srand(time(NULL));
 		int fo= rand() % SUCCESS_RATE;
-		std::cout << "Fo : " << fo << std::endl;
 		if (fo)
 		{
 			std::cout << "BRRRRRRR BRRRRR BRRRRRRRRRRRRRRRRRRRR" << std::endl;

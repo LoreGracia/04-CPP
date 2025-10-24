@@ -11,6 +11,7 @@ class Bureaucrat;
 class AForm
 {
 	private:
+		virtual void behaviour() const = 0;
 		const std::string name;
 		bool sign;
 		const int grade_exect;
@@ -51,7 +52,6 @@ class AForm
 		bool getSign() const;
 		void beSigned(Bureaucrat *bureaucrat);
 		void execute(Bureaucrat const & executor) const;
-		virtual void behaviour() const = 0;
 };
 
 std::ostream& operator<<(std::ostream& out, const AForm& form);

@@ -7,7 +7,7 @@
 #include "AForm.hpp"
 #define SUCCESS_RATE 2 // 50% = 1 | 0
 
-class RobotomyRequestForm : virtual public AForm
+class RobotomyRequestForm : public AForm
 {
 	private:
 		std::string target;

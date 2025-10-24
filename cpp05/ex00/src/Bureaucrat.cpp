@@ -36,6 +36,11 @@ Bureaucrat::~Bureaucrat()
 	std::cout << "\033[34mBureaucrat " << this->name << " destructor called\033[0m" << std::endl;
 }
 
+std::string Bureaucrat::getName() const
+{
+	return (this->name);
+}
+
 int	Bureaucrat::getGrade() const
 {return (this->grade);}
 

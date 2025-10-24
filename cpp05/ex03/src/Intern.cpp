@@ -16,26 +16,30 @@ Intern &Intern::operator=(Intern &other)
 }
 Intern::~Intern() { std::cout << "\033[34mIntern destructor called\033[0m" << std::endl; }
 
+
 AForm *Intern::makeForm(std::string name, std::string target)
 {
-	if (!name.compare("ShrubberyCreationForm"))
+	std::string type[NUMFORM];
+	type[0] =  "ShrubberyCreationForm";
+	type[1] =  "RobotomyRequestForm";
+	type[2] =  "PresidentialPardonForm";
+	int i = 0;
+	while (i < NUMFORM && type[i] != name)
+		i++;
+	switch (i)
 	{
+	case 0:
 		std::cout << "Intern creates " << name << std::endl;
 		return new ShrubberyCreationForm(target);
-	}
-	else if (!name.compare("RobotomyRequestForm"))
-	{
+	case 1:
 		std::cout << "Intern creates " << name << std::endl;
 		return new RobotomyRequestForm(target);
-	}
-	else if (!name.compare("PresidentialPardonForm"))
-	{
+	case 2:
 		std::cout << "Intern creates " << name << std::endl;
 		return new PresidentialPardonForm(target);
+	default:
+		throw UnexistentForm();
 	}
-	throw UnexistentForm();
-	std::cout << "\033[31mUnexistent form\033[0m" << std::endl;
-	return NULL;
 }
 
 Intern::UnexistentForm::UnexistentForm()

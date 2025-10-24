@@ -4,7 +4,7 @@
 #include <fstream>
 #include "AForm.hpp"
 
-class PresidentialPardonForm : virtual public AForm
+class PresidentialPardonForm : public AForm
 {
 	private:
 		std::string target;
