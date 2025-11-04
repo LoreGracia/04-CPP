@@ -57,70 +57,79 @@ e_type	isType(std::string str)
 void	cnvrtNprintChar(int literal)
 {
 	char c = static_cast<char>(literal);
-	if (isgraph(c))
+	if (!isprint(c))
 		std::cout << "Char: not displayable" << std::endl;
 	else if (isascii(c))
-		std::cout << "Char: " << c << std::endl;
+		std::cout << "Char: '" << c << "'" << std::endl;
 	else
 		std::cout << "Char: impossible" << std::endl;
 }
 
-void	cnvrtNprintInt(std::string literal)
+void	limitInt(long i)
 {
-	if (literal.size() <= 11)
-	{
-		if (literal.size() == 11 && literal.at(10) == '9')
-			std::cout << "Int: impossible" << std::endl;
-		int i = atoi(literal.c_str());
-		if (i <= MAX_INT && i >= MIN_INT)
-		{
-			std::cout << "Int: " << i << std::endl;
-			return ;
-		}
-	}
-	std::cout << "Int: impossible" << std::endl;
+	if (i <= MAX_INT && i >= MIN_INT)
+		std::cout << "Int: " << static_cast<int>(i) << std::endl;
+	else
+		std::cout << "Int: impossible" << std::endl;
 }
 
-void	cnvrtNprintFloat(std::string literal)
+void	limitFloat(float f)
 {
-	float f = strtof(literal.c_str(), NULL);
 	if (f <= MAX_FLOAT && f >= MIN_FLOAT)
 	{
-		std::cout << "Float: " << f << std::endl;
-		return ;
+		if (f == static_cast<int>(f))
+			std::cout << "Float: " << f << ".0f" << std::endl;
+		else
+			std::cout << "Float: " << f << "f" << std::endl;
 	}
-	std::cout << "Int: impossible" << std::endl;
+	else
+		std::cout << "Float: impossible" << std::endl;
+}
+
+void	limitDouble(double d)
+{
+	if (d <= MAX_DOUBLE && d >= MIN_DOUBLE)
+	{
+		if (d == static_cast<int>(d))
+			std::cout << "Double: " << d << ".0" << std::endl;
+		else
+			std::cout << "Double: " << d << std::endl;
+	}
+	else
+		std::cout << "Double: impossible" << std::endl;
 }
 
 void	printChar(std::string literal)
 {
 	char c = static_cast<char>(literal.c_str()[0]);
-	std::cout << "Char: " << c << std::endl
-	<< "Int: " << static_cast<int>(c) << std::endl
-	<< "Float: " << static_cast<float>(c) << ".0f" << std::endl
-	<< "Double: " << static_cast<double>(c) << ".0" << std::endl;
+	std::cout << "Char: " << c << std::endl;
+	limitInt(static_cast<int>(c));
+	limitFloat(static_cast<float>(c));
+	limitDouble(static_cast<double>(c));
 }
 void	printInt(std::string literal)
 {
 	int	i = atoi(literal.c_str());
 	cnvrtNprintChar(i);
-	cnvrtNprintInt(literal);
-	std::cout << "Float: " << strtof(literal.c_str(), NULL)  << ".0f"<< std::endl;
-	std::cout << "Double: " << strtod(literal.c_str(), NULL)  << ".0"<< std::endl;
+	limitInt(atol(literal.c_str()));
+	limitFloat(static_cast<float>(i));
+	limitDouble(static_cast<double>(i));
 }
 void	printFloat(std::string literal)
 {
-	cnvrtNprintChar(literal);
-	cnvrtNprintInt(literal.substr(0, literal.find('.')));
-	std::cout << "Float: " << strtof(literal.c_str(), NULL) << std::endl;
-	std::cout << "Double: " << strtod(literal.c_str(), NULL) << std::endl;
+	float	f = strtof(literal.c_str(), NULL);
+	cnvrtNprintChar(static_cast<int>(f));
+	limitInt(static_cast<long>(f));
+	limitFloat(f);
+	limitDouble(static_cast<double>(f));
 }
 void	printDouble(std::string literal)
 {
-	cnvrtNprintChar(literal);
-	cnvrtNprintInt(literal.substr(0, literal.find('.')));
-	std::cout << "Float: " << strtof(literal.c_str(), NULL) << std::endl;
-	std::cout << "Double: " << strtod(literal.c_str(), NULL) << std::endl;
+	double d = strtod(literal.c_str(), NULL);
+	cnvrtNprintChar(static_cast<int>(d));
+	limitInt(static_cast<long>(d));
+	limitFloat(static_cast<float>(d));
+	limitDouble(d);
 }
 void	printSpecial(std::string str)
 {
