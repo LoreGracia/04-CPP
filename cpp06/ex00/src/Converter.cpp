@@ -75,28 +75,18 @@ void	limitInt(long i)
 
 void	limitFloat(float f)
 {
-	if (f <= MAX_FLOAT && f >= MIN_FLOAT)
-	{
-		if (f == static_cast<int>(f))
-			std::cout << "Float: " << f << ".0f" << std::endl;
-		else
-			std::cout << "Float: " << f << "f" << std::endl;
-	}
+	if (f == static_cast<int>(f))
+		std::cout << "Float: " << f << ".0f" << std::endl;
 	else
-		std::cout << "Float: impossible" << std::endl;
+		std::cout << "Float: " << f << "f" << std::endl;
 }
 
 void	limitDouble(double d)
 {
-	if (d <= MAX_DOUBLE && d >= MIN_DOUBLE)
-	{
-		if (d == static_cast<int>(d))
-			std::cout << "Double: " << d << ".0" << std::endl;
-		else
-			std::cout << "Double: " << d << std::endl;
-	}
+	if (d == static_cast<int>(d))
+		std::cout << "Double: " << d << ".0" << std::endl;
 	else
-		std::cout << "Double: impossible" << std::endl;
+		std::cout << "Double: " << d << std::endl;
 }
 
 void	printChar(std::string literal)

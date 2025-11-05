@@ -48,7 +48,6 @@ void ScalarConverter::convert(const std::string &literal)
 			break;
 		
 		default:
-			std::cout << "\033[31mToo many characters, try a char int or float/double value\033[0m" << std::endl;
 			break;
 	}
 }
