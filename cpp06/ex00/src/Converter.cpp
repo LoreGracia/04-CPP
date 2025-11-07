@@ -72,21 +72,15 @@ void	limitInt(long i)
 	else
 		std::cout << "Int: impossible" << std::endl;
 }
-
+# include <iomanip>
 void	limitFloat(float f)
 {
-	if (f == static_cast<int>(f))
-		std::cout << "Float: " << f << ".0f" << std::endl;
-	else
-		std::cout << "Float: " << f << "f" << std::endl;
+	std::cout << "Float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
 }
 
 void	limitDouble(double d)
 {
-	if (d == static_cast<int>(d))
-		std::cout << "Double: " << d << ".0" << std::endl;
-	else
-		std::cout << "Double: " << d << std::endl;
+	std::cout << "Double: " << std::fixed << std::setprecision(1) << d << std::endl;
 }
 
 void	printChar(std::string literal)
@@ -105,6 +99,7 @@ void	printInt(std::string literal)
 	limitFloat(static_cast<float>(i));
 	limitDouble(static_cast<double>(i));
 }
+#include <cerrno>
 void	printFloat(std::string literal)
 {
 	float	f = strtof(literal.c_str(), NULL);

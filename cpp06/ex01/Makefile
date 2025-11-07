@@ -1,8 +1,8 @@
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
 
-NAME = Bureaucrat
+NAME = Serializer
 
-SRC = main.cpp Bureaucrat.cpp
+SRC = main.cpp Serializer.cpp
 
 DSRC = $(addprefix src/, $(SRC))
 

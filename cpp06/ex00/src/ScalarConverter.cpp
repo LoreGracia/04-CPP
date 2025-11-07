@@ -28,7 +28,6 @@ ScalarConverter::~ScalarConverter()
 void ScalarConverter::convert(const std::string &literal)
 {
 	e_type type = isType(literal);
-	std::cout << "Type: " << type << std::endl;
 	switch (type)
 	{
 		case CHAR:
