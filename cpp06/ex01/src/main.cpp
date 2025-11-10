@@ -3,9 +3,15 @@
 int main()
 {
 	Data a;
-	a.a  = "Put here your data\n";
+	a.a = 123;
+	a.b = 'D';
 	uintptr_t b = Serializer::serialize(&a);
-	Data *c = Serializer::deserialize(b);
-	std::cout << &a << std::endl << b << std::endl << c << std::endl;
+	int *c = reinterpret_cast<int *>(b);
+	std::cout << "First iter : " << *c << std::endl;
+	c++;
+	char *d = reinterpret_cast<char *>(c);
+	std::cout << "Second iter : "  << *d << std::endl;
+	Data *e = Serializer::deserialize(b);
+	std::cout << &a << std::endl << "uintptr_t: " << b << std::endl << e << std::endl;
 	return 0;
 }

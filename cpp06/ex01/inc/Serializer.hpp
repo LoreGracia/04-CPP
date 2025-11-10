@@ -8,7 +8,8 @@
 
 typedef struct s_Data
 {
-	std::string a;
+	int a;
+	char b;
 } Data;
 
 class Serializer
