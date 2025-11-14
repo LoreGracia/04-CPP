@@ -19,6 +19,8 @@ Base * generate(void)
 
 void identify(Base* p)
 {
+	if (!p)
+		return ;
 	int i = -1;
 	std::string type[MAX] = { "A", "B", "C"};
 	i += dynamic_cast<A *>(p)? 1 : 0;
@@ -29,13 +31,11 @@ void identify(Base* p)
 
 void identify(Base& p)
 {
-	bool o = false;
 	try
 	{
 		A &a = dynamic_cast<A&>(p);
 		std::cout << "Reference type is A" << std::endl;
 		(void)a;
-		o = true;
 		return ;
 	}
 	catch(const std::exception& e) {}
@@ -44,7 +44,6 @@ void identify(Base& p)
 		B &b = dynamic_cast<B&>(p);
 		std::cout << "Reference type is B" << std::endl;
 		(void)b;
-		o = true;
 		return ;
 	}
 	catch(const std::exception& e) {}
@@ -53,12 +52,10 @@ void identify(Base& p)
 		C &c = dynamic_cast<C&>(p);
 		std::cout << "Reference type is C" << std::endl;
 		(void)c;
-		o = true;
 		return ;
 	}
 	catch(const std::exception& e) {}
-	if (!o)
-		std::cout << "Reference type is unrecognized" << std::endl;
+	std::cout << "Reference type is unrecognized" << std::endl;
 }
 
 int main()

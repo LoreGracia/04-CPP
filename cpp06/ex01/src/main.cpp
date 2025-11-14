@@ -13,5 +13,6 @@ int main()
 	std::cout << "Second iter : "  << *d << std::endl;
 	Data *e = Serializer::deserialize(b);
 	std::cout << &a << std::endl << "uintptr_t: " << b << std::endl << e << std::endl;
+	std::cout << a.a << std::endl << a.b << std::endl;
 	return 0;
 }
