@@ -7,16 +7,16 @@
 #include <cstdlib>
 
 template <typename T>
-void	iter(T* array, const size_t size, void (*f)(T *))
+void	iter(T* array, const size_t size, void (*f)(T&))
 {
 	for (size_t i = 0; i < size; i++)
-		f(&array[i]);
+		f(array[i]);
 }
 
 template<typename T>
-void	print(T *a)
+void	print(const T a)
 {
-	std::cout << "a = " << *a << std::endl;
+	std::cout << "a = " << a << std::endl;
 }
 
 #endif

@@ -1,6 +1,6 @@
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
 
-NAME = Whatever
+NAME = Iter
 
 SRC = main.cpp
 

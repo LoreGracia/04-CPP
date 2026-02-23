@@ -1,6 +1,6 @@
-FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g
+FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic -g #-fsanitize=leak
 
-NAME = Whatever
+NAME = Array
 
 SRC = main.cpp
 

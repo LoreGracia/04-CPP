@@ -1,20 +1,20 @@
 #include "iter.hpp"
 
-void	addition(int *i)
+void	addition(int& i)
 {
-	*i += 1;
+	i += 1;
 }
 
-void	capitalize(char *a)
+void	capitalize(char& a)
 {
-	if (*a < 'a' && *a > 'A' - 1)
-		*a -= 'A' - 'a';
+	if (a < 'z' && a > 'a' - 1)
+		a -= 'a' - 'A';
 }
 
-void	cammel(std::string *s)
+void	snake(std::string& s)
 {
-	while ((*s).find(' '))
-		(*s).at((*s).find(' ')) = '_';
+	while ((s).find(' ') != std::string::npos)
+		(s).at((s).find(' ')) = '_';
 }
 
 int main()
@@ -37,12 +37,12 @@ int main()
 		iter(a, 4, &print);
 		std::cout << std::endl;
 	}
-	{ //char capitalize
-		std::cout << "		*String capitalize" << std::endl;
+	{ //string snake case
+		std::cout << "		*String snake case" << std::endl;
 		std::string a[3] = {"hola que tal", "Como va la vida", "jajaja hahaha ha"};
 		iter(a, 3, &print);
 		std::cout << std::endl;
-		iter(a, 3, &cammel);
+		iter(a, 3, &snake);
 		iter(a, 3, &print);
 		std::cout << std::endl;
 	}
