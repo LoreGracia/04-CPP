@@ -6,8 +6,8 @@
 #include <cctype>
 #include <cstdlib>
 
-template <typename T>
-void	iter(T* array, const size_t size, void (*f)(T&))
+template <typename T, typename F>
+void	iter(T* array, const size_t size, F)
 {
 	for (size_t i = 0; i < size; i++)
 		f(array[i]);

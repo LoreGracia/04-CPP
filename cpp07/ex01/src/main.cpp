@@ -22,28 +22,28 @@ int main()
 	{ //*int + 1
 		std::cout << "		*Int +1" << std::endl;
 		int a[] = {4, 2, 42, 3, 1, 41};
-		iter(a, 6, &print);
+		iter(a, 6, print<int>);
 		std::cout << std::endl;
-		iter(a, 6, &addition);
-		iter(a, 6, &print);
+		iter(a, 6, addition);
+		iter(a, 6, print<int>);
 		std::cout << std::endl;
 	}
 	{ //char capitalize
 		std::cout << "		*Char capitalize" << std::endl;
 		char a[4] = {'h', 'o', 'l', 'a'};
-		iter(a, 4, &print);
+		iter(a, 4, print<char>);
 		std::cout << std::endl;
-		iter(a, 4, &capitalize);
-		iter(a, 4, &print);
+		iter(a, 4, capitalize);
+		iter(a, 4, print<char>);
 		std::cout << std::endl;
 	}
 	{ //string snake case
 		std::cout << "		*String snake case" << std::endl;
 		std::string a[3] = {"hola que tal", "Como va la vida", "jajaja hahaha ha"};
-		iter(a, 3, &print);
+		iter(a, 3, print<std::string>);
 		std::cout << std::endl;
-		iter(a, 3, &snake);
-		iter(a, 3, &print);
+		iter(a, 3, snake);
+		iter(a, 3, print<std::string>);
 		std::cout << std::endl;
 	}
 	return 0;
