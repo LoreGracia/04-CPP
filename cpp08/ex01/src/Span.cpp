@@ -67,25 +67,14 @@ int		Span::longestSpan()
 {
 	if (v.size() <= 1)
 		throw std::logic_error("\033[31mToo few for span\033[0m");
-	int span = 0;
+	int max = 0;
+	int min = v[0];
 	for (size_t i = 0; i < v.size(); i++)
 	{
-		for (size_t j = 0; j < v.size(); j++)
-		{
-			if (i == j)
-			continue;
-			if (v[i] < v[j])
-			{
-				if (v[j] - v[i] > span)
-					span = v[j] - v[i];
-			}
-			else
-			{
-				if (v[i] - v[j] > span)
-					span = v[i] - v[j];
-			}
-		}
+		if (v[i] < min)
+			min = v[i];
+		if (v[i] > max)
+			max = v[i];
 	}
-	return span;
+	return (max - min);
 }
-
