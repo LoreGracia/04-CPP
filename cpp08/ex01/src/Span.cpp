@@ -1,11 +1,11 @@
 #include "Span.hpp"
 
-Span::Span() : v(0), size(0)
+Span::Span() : v(), size(0)
 {
 	std::cout << "\033[34mDefault constructor called\033[0m" << std::endl;
 }
 
-Span::Span(int N) : v(0), size(N)
+Span::Span(int N) : v(), size(N)
 {
 	std::cout << "\033[34mSpan constructor called\033[0m" << std::endl;
 }
@@ -33,8 +33,8 @@ Span::~Span()
 void	Span::addNumber(int n)
 {
 	if (v.size() == size)
-		throw std::out_of_range("Span is already full");
-	v.push_back(n);
+		throw std::out_of_range("\033[31mSpan is already full\033[0m");
+	v.insert(n);
 }
 
 int		Span::shortestSpan()
@@ -42,39 +42,45 @@ int		Span::shortestSpan()
 	if (v.size() <= 1)
 		throw std::logic_error("\033[31mToo few for span\033[0m");
 	int span = INT_MAX;
-	for (size_t i = 0; i < v.size(); i++)
+	std::multiset<int>::iterator next = v.begin();
+	++next;
+	for (std::multiset<int>::iterator i = v.begin(); next != v.end(); ++i)
 	{
-		for (size_t j = 0; j < v.size(); j++)
-		{
-			if (i == j)
-			continue;
-			if (v[i] < v[j])
-			{
-				if (v[j] - v[i] < span)
-					span = v[j] - v[i];
-			}
-			else
-			{
-				if (v[i] - v[j] < span)
-					span = v[i] - v[j];
-			}
-		}
+		if (*next - *i < span)
+			span = *next - *i;
+		++next;
 	}
 	return span;
 }
+// {
+// 	if (v.size() <= 1)
+// 		throw std::logic_error("\033[31mToo few for span\033[0m");
+// 	int span = INT_MAX;
+// 	for (size_t i = 0; i < v.size(); i++)
+// 	{
+// 		for (size_t j = 0; j < v.size(); j++)
+// 		{
+// 			if (i == j)
+// 			continue;
+// 			if (v[i] < v[j])
+// 			{
+// 				if (v[j] - v[i] < span)
+// 					span = v[j] - v[i];
+// 			}
+// 			else
+// 			{
+// 				if (v[i] - v[j] < span)
+// 					span = v[i] - v[j];
+// 			}
+// 		}
+// 	}
+// 	return span;
+// }
 
 int		Span::longestSpan()
 {
 	if (v.size() <= 1)
 		throw std::logic_error("\033[31mToo few for span\033[0m");
-	int max = 0;
-	int min = v[0];
-	for (size_t i = 0; i < v.size(); i++)
-	{
-		if (v[i] < min)
-			min = v[i];
-		if (v[i] > max)
-			max = v[i];
-	}
-	return (max - min);
+	std::multiset<int>::iterator end = --v.end();
+	return (*end - *v.begin());
 }

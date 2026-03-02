@@ -5,15 +5,13 @@
 #include <string>
 #include <exception>
 #include <algorithm>
-#include <vector>
-#include <deque>
-#include <list>
+#include <set>
 #include <climits>
 
 class Span
 {
 	private:
-		std::vector<int> v;
+		std::multiset<int> v;
 		size_t	size;
 	public:
 		Span();
