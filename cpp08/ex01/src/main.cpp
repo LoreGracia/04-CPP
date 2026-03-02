@@ -5,8 +5,7 @@ int main()
 	{
 		std::cout << "\033[30m			More than 1000" << std::endl;
 		Span sp(10001);
-		for (int i = 0; i < 10001; i++)
-			sp.addNumber(i);
+		sp.addRange(10001);
 		std::cout << "sp.shortest = " << sp.shortestSpan() << std::endl;
 		std::cout << "sp.largest = " << sp.longestSpan() << std::endl;
 		std::cout << std::endl;

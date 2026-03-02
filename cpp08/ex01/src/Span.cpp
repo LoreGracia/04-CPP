@@ -52,30 +52,6 @@ int		Span::shortestSpan()
 	}
 	return span;
 }
-// {
-// 	if (v.size() <= 1)
-// 		throw std::logic_error("\033[31mToo few for span\033[0m");
-// 	int span = INT_MAX;
-// 	for (size_t i = 0; i < v.size(); i++)
-// 	{
-// 		for (size_t j = 0; j < v.size(); j++)
-// 		{
-// 			if (i == j)
-// 			continue;
-// 			if (v[i] < v[j])
-// 			{
-// 				if (v[j] - v[i] < span)
-// 					span = v[j] - v[i];
-// 			}
-// 			else
-// 			{
-// 				if (v[i] - v[j] < span)
-// 					span = v[i] - v[j];
-// 			}
-// 		}
-// 	}
-// 	return span;
-// }
 
 int		Span::longestSpan()
 {
@@ -83,4 +59,11 @@ int		Span::longestSpan()
 		throw std::logic_error("\033[31mToo few for span\033[0m");
 	std::multiset<int>::iterator end = --v.end();
 	return (*end - *v.begin());
+}
+
+void	Span::addRange(int len)
+{
+	srand(time(0));
+	for (int i = 0; i < len; i++)
+		this->addNumber(rand());
 }

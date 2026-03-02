@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <exception>
 #include <algorithm>
 #include <set>
 #include <climits>
+#include <ctime>
 
 class Span
 {
@@ -23,15 +25,7 @@ class Span
 		void	addNumber(int n);
 		int		shortestSpan();
 		int		longestSpan();
-
-		template<typename T>
-		void	addRange(T a, int len)
-		{
-			for (int i = 0; i < len; i++)
-			{
-				this->addNumber(a[i]);
-			}
-		};
+		void	addRange(int len);
 };
 
 #endif
