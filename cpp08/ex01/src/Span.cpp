@@ -41,6 +41,8 @@ int		Span::shortestSpan()
 {
 	if (v.size() <= 1)
 		throw std::logic_error("\033[31mToo few for span\033[0m");
+	if (std::adjacent_find(v.begin(), v.end()) != v.end())
+		return 0;
 	int span = INT_MAX;
 	std::multiset<int>::iterator next = v.begin();
 	++next;

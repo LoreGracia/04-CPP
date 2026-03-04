@@ -7,6 +7,7 @@
 #include <exception>
 #include <algorithm>
 #include <set>
+#include <vector>
 #include <climits>
 #include <ctime>
 
@@ -26,6 +27,14 @@ class Span
 		int		shortestSpan();
 		int		longestSpan();
 		void	addRange(int len);
+		template<typename T>
+		void	addRange(T a, int len)
+		{
+			for (int i = 0; i < len; i++)
+			{
+				this->addNumber(a[i]);
+			}
+		};
 };
 
 #endif
