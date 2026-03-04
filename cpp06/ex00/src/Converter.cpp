@@ -5,9 +5,11 @@ e_type	isType(std::string str)
 	size_t len = str.size();
 	if (str == "nan" || str == "-inf" || str == "+inf" ||str == "-inff" || str == "+inff" || str == "nanf")
 		return SPECIAL;
-	if (isascii(str.at(0)) && !isdigit(str.at(0)))
+	if (!isdigit(str.at(0)) && isascii(str.at(0)))
 	{
 		if (len == 1)
+			return CHAR;
+		if (str.size() == 3 && str.at(0) == '\'' && str.at(2) == '\'')
 			return CHAR;
 		else if (!((str.at(0) == '-' || str.at(0) == '+')) && isdigit(str.at(1)))
 		{
@@ -85,7 +87,11 @@ void	limitDouble(double d)
 
 void	printChar(std::string literal)
 {
-	char c = static_cast<char>(literal.c_str()[0]);
+	char c;
+	if (literal.size() == 3 && literal.at(0) == '\'' && literal.at(2) == '\'')
+		c = static_cast<char>(literal.c_str()[1]);
+	else
+		c = static_cast<char>(literal.c_str()[0]);
 	std::cout << "Char: " << c << std::endl;
 	limitInt(static_cast<int>(c));
 	limitFloat(static_cast<float>(c));
