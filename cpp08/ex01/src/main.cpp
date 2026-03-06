@@ -13,7 +13,7 @@ int main()
 	{
 		std::cout << "\033[30m			Range add" << std::endl;
 		Span sp(3);
-		std::vector<int> a = {4, 2, 42};
+		int a[3] = {4, 2, 42};
 		sp.addRange(a, 3);
 		std::cout << "sp.shortest = " << sp.shortestSpan() << std::endl;
 		std::cout << "sp.largest = " << sp.longestSpan() << std::endl;
