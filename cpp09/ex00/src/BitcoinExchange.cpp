@@ -132,13 +132,25 @@ std::string	Btc::getDate()
 			return date;
 	}
 	date = year + month + day;
-	// std::cout << "PASA " << date << std::endl;
 	return date;
 }
 
 std::string	Btc::getQuantity()
 {
 	std::string q;
+	int flag = 0;
+	for (size_t i = 13; i < tmp.size(); ++i)
+	{
+		if (!std::isdigit(tmp[i]) && tmp[i] != '.')
+			return q;
+		if (tmp[i] == '.')
+			flag++;
+		if (flag > 1)
+			return print_error("yeah right, too many point"), "";
+	}
+	q = tmp.substr(13, tmp.size() - 13);
+	if (std::strtof(q.c_str(), NULL) > std::numeric_limits<int>::max())
+		return print_error("too large a number"), "";
 	return q;
 }
 
@@ -147,9 +159,47 @@ void	Btc::print_error(std::string str)
 	std::cout << "Error: " << str << std::endl;
 }
 
+float	Btc::searchPrize()
+{
+	size_t tdate = std::strtoul(date.c_str(), NULL, 10);
+	std::map<size_t, float>::iterator min = std::min_element(_data.begin(), _data.end());
+	if (min->first > tdate)
+		return -1;
+	std::map<size_t, float>::iterator max = std::max_element(_data.begin(), _data.end());
+	if (max->first < tdate)
+		return max->second;
+	for (std::map<size_t, float>::iterator i = min; i != max; i++)
+	{
+		if (i->first == tdate)
+			return i->second;
+		else if (i->first > tdate)
+			return (--i, i->second);
+	}
+	return -1;
+}
+
 void	Btc::print_prize(std::string str)
 {
-	std::cout << str << std::endl;
+	float prize = searchPrize();
+	if (prize == -1)
+		print_error("no data for date");
+	else
+	{
+		prize = prize * std::strtof(value.c_str(), NULL);
+		if (prize > std::numeric_limits<int>::max())
+			print_error("too large a number");
+		else
+		{
+			int len = 0;
+			int i = prize;
+			while (i)
+			{
+				len++;
+				i /= 10;
+			}
+			std::cout << std::setprecision(len + 2) << str << prize << std::endl;
+		}
+	}
 }
 
 void	Btc::findPrize(std::string input)
@@ -159,21 +209,31 @@ void	Btc::findPrize(std::string input)
 		throw std::logic_error("Input file unaccessible");
 	if (!getline(file, tmp))
 		throw std::logic_error("Empty file");
-	std::string quantity;
-	char err[10];
 	while (getline(file, tmp))
 	{
-		if (tmp.substr(10, 3) != " | ")
-			print_error ("missing arguments or wrong sintax");
 		date = getDate();
 		if (date.empty())
 		{
-			date.copy(err, 10, 0);
-			print_error("bad input => " + std::string(err));
+			print_error("bad input => " + tmp.substr(0, 10));
 			continue ;
 		}
-		quantity = getQuantity();
-		print_prize(tmp.substr(0, 10) +  " => " + "num" + " = " + "ta bien");
+		if (tmp.size() < 13)
+		{
+			print_error ("missing arguments");
+			continue ;
+		}
+		if (tmp.substr(10, 3) != " | ")
+		{
+			print_error ("wrong sintax"); continue ;
+			continue ;
+		}
+		value = getQuantity();
+		if (value.empty())
+		{
+			print_error("not a positive number");
+			continue ;
+		}
+		print_prize(tmp.substr(0, 10) +  " => " + value + " = ");
 	}
 }
 

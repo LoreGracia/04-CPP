@@ -3,13 +3,13 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <exception>
 #include <algorithm>
 #include <map>
 #include <cstdlib>
 #include <iomanip>
+#include <limits>
 
 class Btc
 {
@@ -25,6 +25,7 @@ class Btc
 		std::string	getQuantity();
 		void	print_error(std::string str);
 		void	print_prize(std::string str);
+		float	searchPrize();
 	public:
 		Btc();
 		Btc(std::string av);
