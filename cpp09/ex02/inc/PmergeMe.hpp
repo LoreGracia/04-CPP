@@ -7,12 +7,13 @@
 #include <algorithm>
 #include <vector>
 #include <deque>
+#include <cmath>
 
 class PmergeMe
 {
 	private:
 		std::vector<int> _res;
-		int		execute();
+		void	execute(std::vector<int>& movPI);
 		int		parse(char **av);
 	public:
 		PmergeMe();
@@ -21,7 +22,7 @@ class PmergeMe
 		~PmergeMe();
 
 		std::vector<int> getRes() const;
-		int	calculate(char **av);
+		int	calculate(int ac, char **av);
 };
 
 std::ostream& operator<<(std::ostream& out, const PmergeMe& pm);
