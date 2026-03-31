@@ -22,7 +22,7 @@ class PmergeMe
 		~PmergeMe();
 
 		std::vector<int> getRes() const;
-		int	calculate(int ac, char **av);
+		void	calculate(int ac, char **av);
 };
 
 std::ostream& operator<<(std::ostream& out, const PmergeMe& pm);

@@ -7,9 +7,12 @@ int main(int argc, char **argv)
 	try
 	{
 		PmergeMe pm;
-		std::cout << pm << std::endl;
+		std::cout << "Before:	";
+		for (int i = 1; i != argc; i++)
+			std::cout << argv[i] << " ";
+		std::cout << std::endl;
 		pm.calculate(argc - 1, ++argv);
-		std::cout << pm << std::endl;
+		std::cout << "After:	" << pm << std::endl;
 	}
 	catch(const std::exception& e)
 	{
