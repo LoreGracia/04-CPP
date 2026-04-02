@@ -19,6 +19,7 @@ class PmergeMe
 		void	createPent(std::vector< std::vector<int> >& pent, std::vector<int>& movI);
 		void	jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& new_pent);
 		void	getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int> mov);
+		void	binarySearch(std::vector<int>::iterator& it, std::vector<int>::iterator& itI, size_t half, int insert, int& m);
 
 	public:
 		PmergeMe();
