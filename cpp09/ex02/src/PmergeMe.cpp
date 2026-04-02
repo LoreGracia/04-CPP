@@ -26,7 +26,6 @@ int	PmergeMe::parse(char **av)
 		}
 		_res.push_back(std::atoi(av[i]));
 	}
-	std::cout << " AAAAAAAAAAAAa " << _res.size() << std::endl;
 	return 0;
 }
 
