@@ -16,8 +16,9 @@ class PmergeMe
 		void	execute(std::vector<int>& movPI);
 		int		parse(char **av);
 		void	swapPairs(std::vector<int>& movS);
-		void	createPent(std::vector< std::vector<int> >& pent);
+		void	createPent(std::vector< std::vector<int> >& pent, std::vector<int>& movI);
 		void	jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& new_pent);
+		void	getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int> mov);
 
 	public:
 		PmergeMe();
