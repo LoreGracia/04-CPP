@@ -218,6 +218,7 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 			std::cout << *i << " ";
 		std::cout << std::endl;
 		// std::cout << Iorder[i] << std::endl;
+		std::cout << "diff is " << diff  << " from " << Iorder[i] << " - " << movI[Iorder[i] * 2] << " + " << i<< std::endl;
 		std::cout << "insert " << pent[Iorder[i]][0] << " pair is " << pent[Iorder[i]][1] << std::endl;
 		std::cout << "pareja " << *it << std::endl;
 		if (*it != pent[Iorder[i]][0])
@@ -229,10 +230,10 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 		// std::cout << std::endl;
 		std::cout << "counted movements " << m<< std::endl;
 		_res.insert(it, pent[Iorder[i]][0]);
-		movI[Iorder[i] * 2] += m;
+		movI[Iorder[i] * 2] += m;?//ESTO DUPLICA CUANDO AUN NO ESTAN LAS PROXIMAS INSERCIONES?!
 		if (Iorder[i])
 		{
-			int tmp = m * -1;
+			int tmp = m;
 			for (int ij = Iorder[i]*2 - 1; tmp && ij > -1; ij--)
 			{
 				movI[ij]++;
@@ -244,17 +245,6 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 			std::cout << (*i) << " ";
 		std::cout << std::endl;
 	}
-	// std::cout << "AFTER INSERTION  ";
-	// for (std::vector<int>::iterator i = mov.begin(); i != mov.end(); i++)
-	// 	std::cout << *i << " ";
-	// std::cout << std::endl;
-	//add swap and insert movements for previus recursion
-	// std::vector<int> tmp = sizedVector(movPI.size());
-	// for (size_t i = 0; i < movPI.size(); i++)
-	// {
-	// 	tmp[i] = movS[i] + movI[i];
-	// }
-	// std::cout << " MOVPI  " << movPI.size() << " | " << mov.size() << std::endl;
 	for (std::vector<int>::iterator it = mov.begin(); it < mov.end(); it++)
 	{
 		// std::cout << "F WHAT  " << odd << std::endl;
