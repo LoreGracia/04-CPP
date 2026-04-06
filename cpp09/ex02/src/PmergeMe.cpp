@@ -94,7 +94,7 @@ void	PmergeMe::jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector
 	std::cout << std::endl;
 }
 
-void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int>& mov)
+void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int>& mov, int odd)
 {
 	Iorder.push_back(0);
 	if (pent.size() > 1)
@@ -102,17 +102,26 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 		//apply mov
 		std::vector< std::vector<int> > new_pent;
 		std::vector<int> tmp = sizedVector(mov.size());
-		std::cout << "			AAAAAA" << std::endl;
+		std::cout << "			PENT before new Pent" << std::endl;
 		for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
 			std::cout << (*i)[0] << " ";
 		std::cout << std::endl;
-		for (size_t i = 0; i < pent.size(); i++){
-			tmp[mov[i] + i] = i;}
+		for (size_t i = 0; i < _res.size(); i++)
+		{
+			std::cout << "[i] " << i;
+			std::cout << "		mov[i] " << mov[i];
+			std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
+			if (odd < 0 || i < (size_t)odd)
+				tmp[mov[i] + i] = i;
+			else if (odd < 0 || i > (size_t)odd)
+				tmp[mov[i - 1] + i] = i;
+			std::cout << "TMP[i] = " <<  tmp[i] << std::endl;
+		}
 		// std::cout << "			BBBBB" << std::endl;
 		for (size_t i = 0; i < pent.size(); i++){
-			// std::cout << tmp[i] << std::endl;
+			std::cout << tmp[i] << std::endl;
 			new_pent.push_back(pent[tmp[i]]);}
-		std::cout << "			BBBBB" << std::endl;
+		std::cout << "			NewPENT" << std::endl;
 		for (std::vector< std::vector<int> >::iterator i = new_pent.begin(); i != new_pent.end(); i++)
 			std::cout << (*i)[0] << " ";
 		std::cout << std::endl;
@@ -123,14 +132,9 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 		pent = new_pent;
 		std::cout << "Sale de jacobstal" << std::endl;
 	}
-	for (std::vector<int>::iterator it = mov.begin(); it < mov.end(); it += 2)
-	{
-		*it *= 2;
-		it = mov.insert(it, *it);
-	}
 }
 
-void	PmergeMe::execute(std::vector<int>& movPI)
+void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 {
 	//Swap pairs and save swap movements
 	std::vector<int> movS;
@@ -139,9 +143,10 @@ void	PmergeMe::execute(std::vector<int>& movPI)
 	std::vector< std::vector<int> > pent;
 	createPent(pent);
 	//Recurivity
+	int odd  = -1;
 	std::vector<int> mov = sizedVector(_res.size());
 	if (_res.size() > 1)
-		execute(mov);
+		execute(mov, odd);
 	std::cout << "			vuelve" << std::endl;
 	for (std::vector<int>::iterator i = mov.begin(); i != mov.end(); i++)
 		std::cout << (*i) << " ";
@@ -149,7 +154,7 @@ void	PmergeMe::execute(std::vector<int>& movPI)
 	//INSERTION
 	//order pent, double mov and get jacobstal order
 	std::vector<int> Iorder;
-	getOrder(Iorder, pent, mov);
+	getOrder(Iorder, pent, mov, odd);
 	std::cout << "			HHHHHHHHHHHHHHHH" << std::endl;
 	for (std::vector<int>::iterator i = mov.begin(); i != mov.end(); i++)
 		std::cout << (*i) << " ";
@@ -164,30 +169,32 @@ void	PmergeMe::execute(std::vector<int>& movPI)
 	// }
 	std::vector<int>::iterator it;
 	std::vector<int> movI = sizedVector(movS.size());
-	int flag = 0;
 	// std::cout << "MOOOOOOOOOOOve " << mov[0] << std::endl;
-	if (pent.size() % 2 && mov.size() > 1)
+	if (pent.size() == 1 && pent.size() < _res.size())
 	{
-		mov.erase(mov.begin() + 1);
-		if (mov[0])
-		{
-			for (size_t i = 1; i < mov.size(); i++)
-				mov[i] += 1;
-			flag = 1;
-		}
+		odd = 1 + mov[1];
+		// mov.erase(mov.begin() + 1);
+		// if (mov[0])
+		// {
+		// 	for (size_t i = 1; i < mov.size(); i++)
+		// 		mov[i] += 1;
+			// flag = 1;
+		// }
 	}
 	for (size_t i = 0; i < Iorder.size(); i++)
 	{
 		// int ins_diff = 0;//Iorder[i] + (i);
 		int m = 0;
 		// std::cout << "MOVIMEINTOS " << movI[Iorder[i] * 2] << " de _CP = " << cp_res[Iorder[i] * 2] << std::endl;
-		it = _res.begin() + Iorder[i] - movI[Iorder[i] * 2] + i + flag;
-		// std::cout << Iorder.size() << " | " << pent.size() << std::endl;
-		// while (it != _res.end() - 1 && *it != pent[Iorder[i]][1])
-		// {
-		// 	it++;
-		// 	ins_diff++;
-		// }
+		it = _res.begin() + Iorder[i] - movI[Iorder[i] * 2] + i;
+		// std::cout << "IT " << *it << std::endl;
+		std::cout << "Pent " << pent[Iorder[i]][0] << " Iorder " << Iorder[i] << " i " << i << std::endl;
+		for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
+			std::cout << (*i)[0] << " ";
+		std::cout << std::endl;
+		if (it <= _res.begin() + odd)
+			it++;
+		// std::cout << "IT " << *it << std::endl;
 		std::cout << "_RES befor insertion ";
 		for (std::vector<int>::iterator i = _res.begin(); i != _res.end(); i++)
 			std::cout << *i << " ";
@@ -219,6 +226,10 @@ void	PmergeMe::execute(std::vector<int>& movPI)
 			std::cout << (*i) << " ";
 		std::cout << std::endl;
 	}
+	std::cout << "AFTER INSERTION  ";
+	for (std::vector<int>::iterator i = mov.begin(); i != mov.end(); i++)
+		std::cout << *i << " ";
+	std::cout << std::endl;
 	//add swap and insert movements for previus recursion
 	// std::vector<int> tmp = sizedVector(movPI.size());
 	// for (size_t i = 0; i < movPI.size(); i++)
@@ -226,10 +237,29 @@ void	PmergeMe::execute(std::vector<int>& movPI)
 	// 	tmp[i] = movS[i] + movI[i];
 	// }
 	// std::cout << " MOVPI  " << movPI.size() << " | " << mov.size() << std::endl;
+	for (std::vector<int>::iterator it = mov.begin(); it < mov.end(); it += 2)
+	{
+		std::cout << "F WHAT  " << odd << std::endl;
+		if (odd != -1 && it == mov.begin() + odd)
+		{
+			*it *= 2;
+			std::cout << "odd MOV IT MOV IT " << *it << std::endl;
+			continue ;
+		}
+		*it *= 2;
+		if (*it && it > mov.begin() + odd)
+			*it += 1;
+		it = mov.insert(it, *it);
+		std::cout << "MOV IT MOV IT " << *it << std::endl;
+		std::cout << "MOV IT MOV IT " << *(it + 1) << std::endl;
+	}
+	if (odd != -1 && mov.begin() + odd != movI.begin() + odd)
+	odd -= movI[odd];
 	for (size_t i = 0; i < movPI.size(); i++){
 		// std::cout << movI[i] << std::endl;
 		movPI[i] = mov[i] + movS[i + mov[i]] + movI[i + mov[i]];//tmp[i + mov[i]];
 	}
+	oddP = odd;
 		// std::cout << std::endl;
 }
 
@@ -279,8 +309,9 @@ void	PmergeMe::calculate(int ac, char **av)
 		throw std::logic_error("invalid input");
 	if (_res.size() > 1)
 	{
+		int odd;
 		std::vector<int> tmp = sizedVector(ac);
-		execute(tmp);
+		execute(tmp, odd);
 	}
 }
 
