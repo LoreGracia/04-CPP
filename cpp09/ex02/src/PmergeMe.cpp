@@ -88,10 +88,6 @@ void	PmergeMe::jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector
 			Iorder.push_back(i);
 		}
 	}
-	// std::cout << "Order is ";
-	// for (std::vector<int>::iterator i = Iorder.begin(); i != Iorder.end(); i++)
-	// 	std::cout << *i + 1 << " ";
-	// std::cout << std::endl;
 }
 
 void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int>& mov, int odd)
@@ -101,35 +97,44 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 	{
 		//apply mov
 		std::vector< std::vector<int> > new_pent;
-		std::vector<int> tmp = sizedVector(mov.size());
-		// std::cout << "			PENT before new Pent" << std::endl;
+		std::vector<int> tmp = sizedVector(pent.size());
+		// std::cout << "			PENT before new Pent " << pent.size() << std::endl;
 		// for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
 		// std::cout << std::endl;
 		for (size_t i = 0; i < _res.size(); i++)
 		{
 			// std::cout << "OOOOOODD " << (odd == -1 || i < (size_t)odd) << std::endl;
-			// std::cout << "[i] " << i;
-			// std::cout << "		mov[i] " << mov[i];
-			// std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
+			std::cout << "[i] " << i;
+			std::cout << "		mov[i] " << mov[i];
+			std::cout << " odd " << odd << std::endl;
+			std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
 			if (odd != -1 && i == (size_t)odd)
 				i++;
 			if (odd == -1 || i < (size_t)odd)
 				tmp[i] = mov[i] + i;
-			else if (i > (size_t)odd)
-				tmp[i] = mov[i - 1] + i;
+			else if (i > (size_t)odd){
+				std::cout << " paso [i] " << i;
+				std::cout << "		mov[i] " << mov[i] << std::endl;
+				std::cout << "tmp[" << i - 1 << "] = " << mov[i] + i - 1 << std::endl;
+				tmp[i - 1] = mov[i] + i - (odd);}
+			// std::cout << "TMP[" << i << "] = " <<  tmp[i] << std::endl;
 			// if (odd == -1 || i < (size_t)odd)
 			// 	tmp[mov[i] + i] = i;
 			// else if (i > (size_t)odd)
 			// 	tmp[mov[i - 1] + i] = i;
-			// std::cout << "TMP[i] = " <<  tmp[i] << std::endl;
+			// std::cout << "TMPsize = " <<  tmp.size() << std::endl;
 		}
+			std::cout << "TMP[0] = " <<  tmp[0] << std::endl;
+			std::cout << "TMP[1] = " <<  tmp[1] << std::endl;
+			std::cout << "TMP[2] = " <<  tmp[2] << std::endl;
 		// std::cout << "			BBBBB" << std::endl;
 		for (size_t i = 0; i < pent.size(); i++){
-			// std::cout << "Pent before new " << pent[i][0] << std::endl;
 			// std::cout << tmp[i] << std::endl;
-			new_pent.push_back(pent[tmp[i]]);}
-		// std::cout << "			NewPENT" << std::endl;
+			new_pent.push_back(pent[tmp[i]]);
+			// std::cout << "NEW Pent after new " << new_pent[tmp[i]][0] << std::endl;
+		}
+		std::cout << "			NewPENT" << std::endl;
 		// for (std::vector< std::vector<int> >::iterator i = new_pent.begin(); i != new_pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
 		// std::cout << std::endl;
@@ -139,6 +144,10 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 			Iorder.push_back(1);
 		pent = new_pent;
 		std::cout << "Sale de jacobstal" << std::endl;
+		// std::cout << "Order is ";
+		// for (std::vector<int>::iterator i = Iorder.begin(); i != Iorder.end(); i++)
+		// 	std::cout << *i + 1 << " ";
+		// std::cout << std::endl;
 	}
 }
 
@@ -164,10 +173,20 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 	std::vector<int> Iorder;
 	if (odd != -1 && pent.size() == _res.size())
 	{
-		std::cout << " A B A DASDFASDF " << mov.size() << " " << pent.size() << " " << _res.size() << std::endl;
+		std::cout << " QUITANDO ODD " << mov.size() << " " << pent.size() << " " << _res.size() << std::endl;
 		odd = -1;
 	}
+	std::cout << "Pent " << std::endl;
+	for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
+		std::cout << (*i)[0] << " ";
+	std::cout << std::endl;
+	if (pent.size() == 1 && pent.size() < _res.size())
+		odd = 1 + mov[1];
 	getOrder(Iorder, pent, mov, odd);
+	std::cout << "Pent " << std::endl;
+	for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
+		std::cout << (*i)[0] << " ";
+	std::cout << std::endl;
 	std::cout << "			HHHHHHHHHHHHHHHH" << std::endl;
 	for (std::vector<int>::iterator i = mov.begin(); i != mov.end(); i++)
 		std::cout << (*i) << " ";
@@ -183,22 +202,14 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 	std::vector<int>::iterator it;
 	std::vector<int> movI = sizedVector(movS.size());
 	// std::cout << "MOOOOOOOOOOOve " << mov[0] << std::endl;
-	if (pent.size() == 1 && pent.size() < _res.size())
-	{
-		odd = 1 + mov[1];
-		// mov.erase(mov.begin() + 1);
-		// if (mov[0])
-		// {
-		// 	for (size_t i = 1; i < mov.size(); i++)
-		// 		mov[i] += 1;
-			// flag = 1;
-		// }
-	}
 	for (size_t i = 0; i < Iorder.size(); i++)
 	{
 		// int ins_diff = 0;//Iorder[i] + (i);
 		int m = 0;
-		int diff = Iorder[i] - movI[Iorder[i] * 2] + i;
+		int j_diff = 0;
+		for (size_t j = i; Iorder.begin() + j != Iorder.begin() && Iorder[j] < Iorder[j - 1]; j--)
+			j_diff++;
+		int diff = Iorder[i] - movI[Iorder[i] * 2] + (i - j_diff);
 		// std::cout << "MOVIMEINTOS " << movI[Iorder[i] * 2] << " de _CP = " << _res[Iorder[i] * 2] << std::endl;
 		it = _res.begin() + diff;
 		// std::cout << "IT " << *it << std::endl;
@@ -206,19 +217,21 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 		// for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
 		// std::cout << std::endl;
-		if (odd != -1 && it >= _res.begin() + odd)
+		std::cout << "\033[32m Porque entra " << (odd != -1) << " " << (it >= _res.begin() + odd) << "\033[0m" << std::endl;
+		std::cout << *(_res.begin() + (odd * 2) + (odd)) << " " << (odd * 2) + (odd) << std::endl;
+		if (odd != -1 && it >= _res.begin() + (odd * 2) + (odd))
 		{
 			std::cout << "PAAAAASO ODD " << odd << std::endl;
 			it++;
 			diff++;
 		}
+		std::cout << "diff is " << diff  << " from " << Iorder[i] << " - " << movI[Iorder[i] * 2] << " + (" << i << " - " << j_diff << ")" << std::endl;
 		// std::cout << "IT " << *it << std::endl;
 		std::cout << "_RES befor insertion ";
 		for (std::vector<int>::iterator i = _res.begin(); i != _res.end(); i++)
 			std::cout << *i << " ";
 		std::cout << std::endl;
 		// std::cout << Iorder[i] << std::endl;
-		std::cout << "diff is " << diff  << " from " << Iorder[i] << " - " << movI[Iorder[i] * 2] << " + " << i<< std::endl;
 		std::cout << "\033[31minsert " << pent[Iorder[i]][0] << " pair is " << pent[Iorder[i]][1] << "\033[0m" << std::endl;
 		std::cout << "pareja " << *it << std::endl;
 		if (*it != pent[Iorder[i]][0])
@@ -263,9 +276,12 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 		it = mov.insert(it, *it);
 		it++;
 	}
-	if (odd != -1 && mov.begin() + odd != movI.begin() + odd)
-	odd -= movI[odd];
-	for (size_t i = 0; i < movPI.size(); i++){
+	// if (odd != -1 && mov.begin() + odd != movI.begin() + odd)
+	// std::cout << " ODD " << odd << std::endl;
+	// odd -= movI[odd];
+	// std::cout << " ODD " << odd << std::endl;
+	for (size_t i = 0; i < movPI.size(); i++)
+	{
 		// std::cout << movI[i] << std::endl;
 		movPI[i] = mov[i] + movS[i + mov[i]] + movI[i + mov[i]];//tmp[i + mov[i]];
 	}
@@ -282,20 +298,24 @@ void	PmergeMe::binarySearch(std::vector<int>::iterator& it, int half, int insert
 	std::cout << "first half " << half << std::endl;
 	if (!half)
 		return ;
-	if (*it > insert && half != 3)
-		half = (half/2);
-	else if (half != 3)
-		half = -(half/2);
-	if (half == 3)
-		half = 2;
+	if (half == 1 || half == -1)
+		half = 0;
+	else if (*it > insert && !(half % 2))
+		half = ((half < 0? -half : half)/2);
+	else if (!(half % 2))
+		half = ((half < 0? half : -half)/2);
+	std::cout << " 			half " << half << std::endl;
+	if (half % 2 && half != 1 && half != -1)
+		half--;
 	std::cout << " half " << half << std::endl;
 	std::cout << " it " << *it << std::endl;
 	it -= half;
-	std::cout << " M a " << m << std::endl;
+	// std::cout << " M a " << m << std::endl;
 	m -= half;
 	std::cout << " M b " << m << std::endl;
 	std::cout << " it " << *it << std::endl;
-	if (half > 0)
+	std::cout << " half " << half << std::endl;
+	if (half != 0)
 		binarySearch(it, half, insert, m);
 	else
 	{
