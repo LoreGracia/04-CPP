@@ -95,7 +95,7 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 	Iorder.push_back(0);
 	if (pent.size() > 1)
 	{
-		(void)odd;
+		// (void)odd;
 		//apply mov
 		std::vector< std::vector<int> > new_pent;
 		std::vector<int> tmp = sizedVector(pent.size());
@@ -103,6 +103,7 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 		// for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
 		// std::cout << std::endl;
+		bool odd_flag = false;
 		for (size_t i = 0; i < pent.size(); i++)
 		{
 			// std::cout << "OOOOOODD " << (odd == -1 || i < (size_t)odd) << std::endl;
@@ -110,15 +111,15 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 			// std::cout << "		mov[i] " << mov[i];
 			// std::cout << " odd " << odd << std::endl;
 			// std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
-			// if (odd != -1 && i == (size_t)odd)
-			// 	i++;
+			if (odd != -1 && i == (size_t)odd)
+				odd_flag = true;
 			// if (odd == -1 || i < (size_t)odd)
-				tmp[i] = mov[i] + i - (odd != -1 && mov[i]);
+				tmp[i] = mov[i + odd_flag] + i;// - (odd != -1 && mov[i + odd_flag]);
 			// else if (i > (size_t)odd){
-				std::cout << " paso [i] " << i;
 				std::cout << "		mov[i] " << mov[i] << std::endl;
 				std::cout << "		odd " << odd << std::endl;
 				std::cout << "tmp[" << i << "] = " << tmp[i] << std::endl;
+				std::cout << "[i] " << i << std::endl;
 				// std::cout << "tmp[" << i - 1 << "] = " << mov[i] + i - 1 << std::endl;
 			// 	tmp[i - 1] = mov[i] + i - (odd);}
 			// std::cout << "TMP[" << i << "] = " <<  tmp[i] << std::endl;
@@ -132,11 +133,15 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 			// std::cout << "TMP[1] = " <<  tmp[1] << std::endl;
 			// std::cout << "TMP[2] = " <<  tmp[2] << std::endl;
 		// std::cout << "			BBBBB" << std::endl;
+		std::cout << "Sal" << std::endl;
 		for (size_t i = 0; i < pent.size(); i++){
-			// std::cout << tmp[i] << std::endl;
+			std::cout << tmp[i] << std::endl;
+			if (tmp[i] < 0)
+				std::exit(1);
 			new_pent.push_back(pent[tmp[i]]);
 			// std::cout << "NEW Pent after new " << new_pent[tmp[i]][0] << std::endl;
 		}
+		std::cout << "Sal" << std::endl;
 		// std::cout << "			NewPENT" << std::endl;
 		// for (std::vector< std::vector<int> >::iterator i = new_pent.begin(); i != new_pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
@@ -233,15 +238,16 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 		// for (size_t im = 0; im + i + 1 < Iorder.size() && Iorder[im + i] > Iorder[im + i + 1]; im++)
 		// 	movI[Iorder[i] * 2]++;
 		std::cout << "counted movements " << movI[Iorder[i] * 2  + (odd != - 1 && odd <= (int)i? 1: 0)] << std::endl;
-		if (Iorder[i])
-		{
+		// if (Iorder[i])
+		// {
 			int tmp = m * -1;
 			for (int ij = Iorder[i]*2 - 1 + (odd != - 1 && odd <= (int)i? 1: 0); tmp && ij > -1; ij--)
 			{
+				std::cout << "moving previous " << ij << std::endl;
 				movI[ij]++;
 				tmp--;
 			}
-		}
+		// }
 		std::cout << "			movI is now ";
 		for (std::vector<int>::iterator i = movI.begin(); i != movI.end(); i++)
 			std::cout << (*i) << " ";
@@ -255,15 +261,18 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 	for (std::vector<int>::iterator it = mov.begin(); it < mov.end(); it++)
 	{
 		// std::cout << "F WHAT  " << odd << std::endl;
-		if (odd != -1 && it == mov.begin() + odd)
+		if (odd != -1 && it == mov.end() - 1)
 		{
 			*it *= 2;
-			std::cout << "odd MOV IT MOV IT " << o << std::endl;
+			std::cout << "vuelta " << o << std::endl;
+			std::cout << "mov end " << mov.size() + *(mov.end() - 1) << std::endl;
+			for (size_t i = mov.size() - 1 + *(mov.end() - 1); i + 1 != mov.size(); i++)
+				mov[i]--;
 			continue ;
 		}
 		*it *= 2;
-		if (*it && it > mov.begin() + odd)
-			*it += 1;
+		// if (*it && it > mov.begin() + odd)
+		// 	*it += 1;
 		it = mov.insert(it, *it);
 		it++;
 		o++;
@@ -286,8 +295,8 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 	std::cout << std::endl;
 	for (size_t i = 0; i < movPI.size(); i++)
 	{
-		movPI[i] = mov[i] + movS[i + mov[i]] + movI[i + mov[i] + movS[i + mov[i]]];//tmp[i + mov[i]];
-		std::cout << "ADDING movs " << movPI[i] << " = " << mov[i] << " + " << movS[i + mov[i]] << " + " << movI[i + mov[i] + movS[i + mov[i]]] << std::endl;
+		movPI[i] = mov[i] + movS[i] + movI[i + movS[i]];//tmp[i + mov[i]];
+		std::cout << "ADDING movs " << movPI[i] << " = " << mov[i] << " + " << movS[i] << " + " << movI[i + movS[i]] << std::endl;
 	}
 	std::cout << "			FOR NEXT ";
 	for (std::vector<int>::iterator i = movPI.begin(); i != movPI.end(); i++)
