@@ -103,7 +103,7 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 		// for (std::vector< std::vector<int> >::iterator i = pent.begin(); i != pent.end(); i++)
 		// 	std::cout << (*i)[0] << " ";
 		// std::cout << std::endl;
-		bool odd_flag = false;
+		// bool odd_flag = false;
 		for (size_t i = 0; i < pent.size(); i++)
 		{
 			// std::cout << "OOOOOODD " << (odd == -1 || i < (size_t)odd) << std::endl;
@@ -111,10 +111,10 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 			// std::cout << "		mov[i] " << mov[i];
 			// std::cout << " odd " << odd << std::endl;
 			// std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
-			if (odd != -1 && i == (size_t)odd)
-				odd_flag = true;
+			// if (odd != -1 && i == (size_t)odd)
+			// 	odd_flag = true;
 			// if (odd == -1 || i < (size_t)odd)
-				tmp[i] = mov[i + odd_flag] + i;// - (odd != -1 && mov[i + odd_flag]);
+				tmp[mov[i] + i] = i;// - (odd != -1 && mov[i + odd_flag]);
 			// else if (i > (size_t)odd){
 				std::cout << "		mov[i] " << mov[i] << std::endl;
 				std::cout << "		odd " << odd << std::endl;
@@ -227,16 +227,10 @@ void	PmergeMe::execute(std::vector<int>& movPI, int& oddP)
 		if (*it != pent[Iorder[i]][0])
 			binarySearch(it, diff, pent[Iorder[i]][0], m);
 		std::cout << "inserting before " << *it << std::endl;
-		// std::cout << "CP paired original places ";
-		// for (std::vector<int>::iterator i = cp_res.begin(); i != cp_res.end(); i++)
-		// 	std::cout << *i << " ";
-		// std::cout << std::endl;
 		std::cout << "counted movements " << m << std::endl;
 		_res.insert(it, pent[Iorder[i]][0]);
 		std::cout << "ADDING TO MOV [] " << Iorder[i] * 2  + (odd != - 1 && odd <= (int)i? 1: 0) << " is adding "<< (odd != - 1 && odd <= (int)i? 1: 0) << std::endl;
 		movI[Iorder[i] * 2  + (odd != - 1 && odd <= (int)i? 1: 0)] += m;//ESTO DUPLICA CUANDO AUN NO ESTAN LAS PROXIMAS INSERCIONES?!
-		// for (size_t im = 0; im + i + 1 < Iorder.size() && Iorder[im + i] > Iorder[im + i + 1]; im++)
-		// 	movI[Iorder[i] * 2]++;
 		std::cout << "counted movements " << movI[Iorder[i] * 2  + (odd != - 1 && odd <= (int)i? 1: 0)] << std::endl;
 		// if (Iorder[i])
 		// {
