@@ -106,11 +106,6 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 		// bool odd_flag = false;
 		for (size_t i = 0; i < pent.size(); i++)
 		{
-			// std::cout << "OOOOOODD " << (odd == -1 || i < (size_t)odd) << std::endl;
-			// std::cout << "[i] " << i;
-			// std::cout << "		mov[i] " << mov[i];
-			// std::cout << " odd " << odd << std::endl;
-			// std::cout << "		mov[i] + i " << mov[i] + i << std::endl;
 			// if (odd != -1 && i == (size_t)odd)
 			// 	odd_flag = true;
 			// if (odd == -1 || i < (size_t)odd)
@@ -120,14 +115,6 @@ void	PmergeMe::getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> 
 				std::cout << "		odd " << odd << std::endl;
 				std::cout << "tmp[" << i << "] = " << tmp[i] << std::endl;
 				std::cout << "[i] " << i << std::endl;
-				// std::cout << "tmp[" << i - 1 << "] = " << mov[i] + i - 1 << std::endl;
-			// 	tmp[i - 1] = mov[i] + i - (odd);}
-			// std::cout << "TMP[" << i << "] = " <<  tmp[i] << std::endl;
-			// if (odd == -1 || i < (size_t)odd)
-			// 	tmp[mov[i] + i] = i;
-			// else if (i > (size_t)odd)
-			// 	tmp[mov[i - 1] + i] = i;
-			// std::cout << "TMPsize = " <<  tmp.size() << std::endl;
 		}
 			// std::cout << "TMP[0] = " <<  tmp[0] << std::endl;
 			// std::cout << "TMP[1] = " <<  tmp[1] << std::endl;
