@@ -2,6 +2,7 @@
 
 int main(int argc, char **argv)
 {
+	(void)argc;
 	if (argc == 1)
 		return (std::cout << "Missing arguments: ./PmergeMe 3 6 5 34 1 32 59 42 4\n", 1);
 	try
@@ -11,7 +12,7 @@ int main(int argc, char **argv)
 		for (int i = 1; i != argc; i++)
 			std::cout << argv[i] << " ";
 		std::cout << std::endl;
-		pm.calculate(argc - 1, ++argv);
+		pm.calculate(++argv);
 		std::cout << "After:	" << pm << std::endl;
 	}
 	catch(const std::exception& e)

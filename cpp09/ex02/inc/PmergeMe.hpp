@@ -18,7 +18,7 @@ class PmergeMe
 		void	swapPairs(std::vector<int>& movS);
 		void	createPent(std::vector< std::vector<int> >& pent);
 		std::vector< std::vector<int> >	applyMov(std::vector<int> mov, std::vector< std::vector<int> > pent);
-		void	insertion(std::vector< std::vector <int> > pent, std::vector<int> movI);
+		void	insertion(std::vector< std::vector <int> > pent, std::vector<int>& movI, int& odd);
 		void	jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector<int> > pent);
 		void	binarySearch(std::vector<int>::iterator& it, int half, int insert, int& m);
 		std::vector<int> addMovs(std::vector<int> mov, std::vector<int> movS, std::vector<int> movI);
@@ -30,7 +30,7 @@ class PmergeMe
 		~PmergeMe();
 
 		std::vector<int> getRes() const;
-		void	calculate(int ac, char **av);
+		void	calculate(char **av);
 };
 
 std::ostream& operator<<(std::ostream& out, const PmergeMe& pm);
