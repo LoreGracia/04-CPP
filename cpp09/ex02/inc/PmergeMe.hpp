@@ -13,13 +13,15 @@ class PmergeMe
 {
 	private:
 		std::vector<int> _res;
-		void	execute(std::vector<int>& movPI, int& oddP);
 		int		parse(char **av);
+		void	execute(std::vector<int>& movPI);
 		void	swapPairs(std::vector<int>& movS);
 		void	createPent(std::vector< std::vector<int> >& pent);
-		void	jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& new_pent);
-		void	getOrder(std::vector<int>& Iorder, std::vector< std::vector<int> >& pent, std::vector<int>& mov, int odd);
+		std::vector< std::vector<int> >	applyMov(std::vector<int> mov, std::vector< std::vector<int> > pent);
+		void	insertion(std::vector< std::vector <int> > pent, std::vector<int> movI);
+		void	jacobstalOrder(std::vector<int>& Iorder, std::vector< std::vector<int> > pent);
 		void	binarySearch(std::vector<int>::iterator& it, int half, int insert, int& m);
+		std::vector<int> addMovs(std::vector<int> mov, std::vector<int> movS, std::vector<int> movI);
 
 	public:
 		PmergeMe();
