@@ -118,7 +118,7 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 	// --- update first result
 	std::vector<int> result = main;
 
-	// 🔑 positions of main (index)
+	// positions of main (index)
 	std::vector<size_t> mainPos(pairs.size());
 
 	for (size_t i = 0; i < pairs.size(); ++i)
@@ -153,7 +153,7 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 		{
 			std::cout << "primero";
 			size_t pos = binarySearchIndex(result, pent[idx], mainPos[idx]);
-
+			std::cout << "	pos " << pos << std::endl;
 			result.insert(result.begin() + pos, pent[idx]);
 
 			// update postions
@@ -172,6 +172,7 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 			{
 				std::cout << "yes ";
 				size_t pos = binarySearchIndex(result, pent[j], mainPos[j]);
+				std::cout << "	pos " << pos << std::endl;
 
 				result.insert(result.begin() + pos, pent[j]);
 
