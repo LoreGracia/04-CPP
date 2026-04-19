@@ -2,10 +2,10 @@
 
 // debug utils
 
-void print_pent(std::vector<std::vector<int>> pent)
+void print_pent(std::vector< std::vector<int> > pent)
 {
 	std::cout << "PENT: ";
-	for (std::vector<std::vector<int>>::iterator it = pent.begin(); it != pent.end(); it++)
+	for (std::vector< std::vector<int> >::iterator it = pent.begin(); it != pent.end(); it++)
 		std::cout << (*it)[0] << " ";
 	std::cout << std::endl;
 }
@@ -88,10 +88,10 @@ size_t PmergeMe::binarySearchIndex(const std::vector<int> &arr, int value, size_
 // ---------------- Ford-Johnson ----------------
 std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 {
-	if (input.size() <= 1)
-		return input;
+	// if (input.size() <= 1)
+	// 	return input;
 	// --- pairs
-	std::vector<std::pair<int, int>> pairs;
+	std::vector< std::pair<int, int> > pairs;
 
 	for (size_t i = 0; i + 1 < input.size(); i += 2)
 	{
@@ -107,18 +107,19 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 	if (isOdd)
 		odd = input.back();
 
-	// --- winners
-	std::vector<int> winners;
+	// --- main
+	std::vector<int> main;
 	for (size_t i = 0; i < pairs.size(); ++i)
-		winners.push_back(pairs[i].first);
+		main.push_back(pairs[i].first);
 
-	winners = fordJohnson(winners);
-
+	if (input.size() > 1)
+		main = fordJohnson(main);
+	std::cout << std::endl << "OUT" << std::endl;
 	// --- update first result
-	std::vector<int> result = winners;
+	std::vector<int> result = main;
 
-	// 🔑 positions of winners (index)
-	std::vector<size_t> winnerPos(pairs.size());
+	// 🔑 positions of main (index)
+	std::vector<size_t> mainPos(pairs.size());
 
 	for (size_t i = 0; i < pairs.size(); ++i)
 	{
@@ -126,73 +127,76 @@ std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
 		{
 			if (result[j] == pairs[i].first)
 			{
-				winnerPos[i] = j;
+				mainPos[i] = j;
 				break;
 			}
 		}
 	}
 
-	// --- losers
-	std::vector<int> losers;
+	// --- pent
+	std::vector<int> pent;
 	for (size_t i = 0; i < pairs.size(); ++i)
-		losers.push_back(pairs[i].second);
+		pent.push_back(pairs[i].second);
 
-	std::vector<size_t> jac = jacobsthalSequence(losers.size());
-	std::vector<bool> inserted(losers.size(), false);
+	std::vector<size_t> jac = jacobsthalSequence(pent.size());
+	std::vector<bool> inserted(pent.size(), false);
 	// insertion
 	for (size_t i = 1; i < jac.size(); ++i)
 	{
+		std::cout << "		ROUND " << i;
+		print_v(result, "");
 		size_t idx = jac[i];
-		// std::cout << idx << std::endl;
-		if (idx >= losers.size())
-			continue;
-
-		std::cout << i << " ";
-		std::cout << idx << std::endl;
+		if (idx >= pent.size())
+			break ;
+		std::cout << "Index " << idx << std::endl;
 		if (!inserted[idx])
 		{
-			std::cout << "primero" << std::endl;
-			size_t pos = binarySearchIndex(result, losers[idx], winnerPos[idx]);
+			std::cout << "primero";
+			size_t pos = binarySearchIndex(result, pent[idx], mainPos[idx]);
 
-			result.insert(result.begin() + pos, losers[idx]);
+			result.insert(result.begin() + pos, pent[idx]);
 
 			// update postions
-			for (size_t k = 0; k < winnerPos.size(); ++k)
-				if (winnerPos[k] >= pos)
-					winnerPos[k]++;
+			for (size_t k = pos; k < mainPos.size(); ++k)
+					mainPos[k]++;
 
 			inserted[idx] = true;
+			print_v(result, " ");
 		}
+		std::cout << "Index " << idx << std::endl;
 
 		for (int j = (int)idx - 1; j >= 0; --j)
 		{
+			std::cout << "segundo ";
 			if (!inserted[j])
 			{
-				size_t pos = binarySearchIndex(result, losers[j], winnerPos[j]);
+				std::cout << "yes ";
+				size_t pos = binarySearchIndex(result, pent[j], mainPos[j]);
 
-				result.insert(result.begin() + pos, losers[j]);
+				result.insert(result.begin() + pos, pent[j]);
 
-				for (size_t k = 0; k < winnerPos.size(); ++k)
-					if (winnerPos[k] >= pos)
-						winnerPos[k]++;
+				for (size_t k = pos; k < mainPos.size(); ++k)
+						mainPos[k]++;
 
 				inserted[j] = true;
+				print_v(result, "");
 			}
+			 std::cout << std::endl;
 		}
+		print_v(result, "		Round current");
 	}
 
 	// lefts out
-	for (size_t i = 0; i < losers.size(); ++i)
+	for (size_t i = 0; i < pent.size(); ++i)
 	{
 		if (!inserted[i])
 		{
-			size_t pos = binarySearchIndex(result, losers[i], winnerPos[i]);
+			size_t pos = binarySearchIndex(result, pent[i], mainPos[i]);
 
-			result.insert(result.begin() + pos, losers[i]);
+			result.insert(result.begin() + pos, pent[i]);
 
-			for (size_t k = 0; k < winnerPos.size(); ++k)
-				if (winnerPos[k] >= pos)
-					winnerPos[k]++;
+			for (size_t k = pos; k < mainPos.size(); ++k)
+					mainPos[k]++;
 		}
 	}
 
