@@ -18,11 +18,18 @@ void print_v(std::vector<int> v, std::string str)
 	std::cout << std::endl;
 }
 
-void print_v_t(std::vector<size_t> v, std::string str)
+void print_v_p(std::vector< std::vector<void*> >& v, std::string str)
 {
 	std::cout << str << ": ";
-	for (std::vector<size_t>::iterator it = v.begin(); it != v.end(); it++)
-		std::cout << *it << " ";
+	for (size_t i = 0; i < v.size(); i++)
+	{
+		std::cout << *(int*)(v[i][0]);
+		if ((v[i][1]) == NULL)
+			std::cout << "N";
+		// else
+		// 	std::cout << "|" << *(int*)(v[i][1]);
+		std::cout << " ";
+	}
 	std::cout << std::endl;
 }
 
@@ -65,43 +72,69 @@ std::vector<size_t> jacobsthal(size_t n)
     return j;
 }
 
-template<typename T>
-void fordJhonson(std::vector<T>& main)
+void fordJhonson(TYPE& main)
 {
-	T* odd = NULL;
+	std::vector<void*> odd;
+	odd.push_back(NULL);
 	if (main.size() % 2)
 	{
-		odd = &main.back();
+		odd[0] = &main.back();
 		main.erase(main.end() - 1);
 	}
-	std::vector< std::pair<T, T> > pairs;
-	for (size_t i = main.size(); i < main.size(); i++)
+	for (size_t i = 0; i < main.size(); i++)
 	{
-		if (main[i] < main[i + 1])
+		if (*(int *)(main[i][0]) > *(int *)(main[i + 1][0]))
 		{
-			pairs.push_back(std::make_pair(main[i], main[i + 1]));
-			main.erase(main.begin() + i);
+			main[i][1] = main[i + 1][0];
+			main.erase(main.begin() + i + 1);
 		}
 		else
 		{
-			pairs.push_back(std::make_pair(main[i + 1], main[i]));
-			main.erase(main.begin() + i + 1);
+			main[i + 1][1] = main[i][0];
+			main.erase(main.begin() + i);
 		}
 	}
-	if (main.size() > 1)
-		fordJhonson(pairs);
-    std::vector<size_t> jac = jacobsthal(main.size());
-	std::vector<T> new_main;
-	typename std::vector<T>::iterator it;
-	for (size_t i = 0; i < pairs.size(); i++)
+	print_v_p(main, "Pairs");
+	std::vector< std::vector<void*> > n_main;
+	for (size_t i = 0; i < main.size(); i++)
 	{
-		new_main.push_back(pairs[jac[i]].second);
-		it = std::upper_bound(new_main.begin(), new_main.end(), pairs[jac[i]].first);
-		new_main.insert(it, pairs[jac[i]].second);
+		std::vector<void*> tmp;
+		tmp.push_back(main[i][0]);
+		tmp.push_back(NULL);
+		tmp.push_back(&main[i]);
+		n_main.push_back(tmp);
 	}
-	main = new_main;
-	if (odd == NULL)
-		odd = NULL;
+	if (main.size() > 1)
+		fordJhonson(main);
+	std::cout << "VUELVE" << std::endl;
+	// bajar nivel de punteros | Insertion | odd
+    // std::vector<size_t> jac = jacobsthal(main.size());
+	// std::vector<T> new_main;
+	// typename std::vector<T>::iterator it;
+	// for (size_t i = 0; i < pairs.size(); i++)
+	// {
+	// 	new_main.push_back(pairs[jac[i]].second);
+	// 	it = std::upper_bound(new_main.begin(), new_main.end(), pairs[jac[i]].first);
+	// 	new_main.insert(it, pairs[jac[i]].second);
+	// }
+	// main = new_main;
+	// if (odd == NULL)
+	// 	odd = NULL;
+	std::vector< std::vector<void*> > ret;
+	for (size_t i = 0; i < main.size(); i++)
+	{
+		std::cout << "1 pasa" << std::endl;
+		std::vector<void*> tmp;
+		std::cout << (*(TYPE*)(n_main[i][2]))[0][1] << std::endl;
+		tmp.push_back((*(TYPE*)(n_main[i][2]))[0][1]);
+		tmp.push_back(n_main[i][0]);
+		tmp.push_back((*(TYPE*)(n_main[i][2]))[0][2]);
+		ret.push_back(tmp);
+		std::cout << "3 pasa" << std::endl;
+	}
+	std::cout << "1 pasa" << std::endl;
+	// print_v_p(ret, "Return");
+	std::cout << "2 pasa" << std::endl;
 }
 
 // public
@@ -110,8 +143,17 @@ void PmergeMe::calculate(char **av)
 {
 	if (parse(av))
 		throw std::logic_error("invalid input");
+	std::vector< std::vector<void*> > res;
+	for (size_t i = 0; i < _res.size(); i++)
+	{
+		std::vector<void*> tmp;
+		tmp.push_back(&_res[i]);
+		tmp.push_back(NULL);
+		tmp.push_back(NULL);
+		res.push_back(tmp);
+	}
 	if (_res.size() > 1)
-		fordJhonson(_res);
+		fordJhonson(res);
 }
 
 std::vector<int> PmergeMe::getRes() const { return _res; }

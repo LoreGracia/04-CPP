@@ -9,6 +9,8 @@
 #include <deque>
 #include <cmath>
 
+#define TYPE std::vector< std::vector<void*> >
+
 class PmergeMe
 {
 	private:
