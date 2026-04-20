@@ -14,7 +14,9 @@ class PmergeMe
 	private:
 		std::vector<int> _res;
 		int					parse(char **av);
-		std::vector<int>	fordJohnson(std::vector<int> input);
+		// template<typename T>
+		// std::vector<T>& fordJhonson(std::vector<T>& main);
+		// std::vector<int>	fordJohnson(std::vector<int> input);
 		size_t				binarySearchIndex(const std::vector<int>& arr, int value, size_t end);
 		std::vector<size_t>	jacobsthalSequence(size_t n);
 	public:

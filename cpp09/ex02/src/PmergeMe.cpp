@@ -51,164 +51,57 @@ int PmergeMe::parse(char **av)
 	return 0;
 }
 
-// ---------------- Jacobsthal ----------------
-std::vector<size_t> PmergeMe::jacobsthalSequence(size_t n)
+std::vector<size_t> jacobsthal(size_t n)
 {
-	std::vector<size_t> j;
-	j.push_back(0);
-	if (n == 0)
-		return j;
+    std::vector<size_t> j;
+    j.push_back(0);
+    j.push_back(1);
 
-	j.push_back(1);
-	while (j.back() < n)
-	{
-		size_t s = j.size();
-		j.push_back(j[s - 1] + 2 * j[s - 2]);
-	}
-	return j;
+    while (j.back() < n)
+    {
+        size_t sz = j.size();
+        j.push_back(j[sz - 1] + 2 * j[sz - 2]);
+    }
+    return j;
 }
 
-// ---------------- Binary insert con índice límite ----------------
-size_t PmergeMe::binarySearchIndex(const std::vector<int> &arr, int value, size_t end)
+template<typename T>
+void fordJhonson(std::vector<T>& main)
 {
-	size_t left = 0;
-	size_t right = end;
-
-	while (left < right)
+	T* odd = NULL;
+	if (main.size() % 2)
 	{
-		size_t mid = (left + right) / 2;
-		if (arr[mid] < value)
-			left = mid + 1;
+		odd = &main.back();
+		main.erase(main.end() - 1);
+	}
+	std::vector< std::pair<T, T> > pairs;
+	for (size_t i = main.size(); i < main.size(); i++)
+	{
+		if (main[i] < main[i + 1])
+		{
+			pairs.push_back(std::make_pair(main[i], main[i + 1]));
+			main.erase(main.begin() + i);
+		}
 		else
-			right = mid;
-	}
-	return left;
-}
-
-// ---------------- Ford-Johnson ----------------
-std::vector<int> PmergeMe::fordJohnson(std::vector<int> input)
-{
-	// if (input.size() <= 1)
-	// 	return input;
-	// --- pairs
-	std::vector< std::pair<int, int> > pairs;
-
-	for (size_t i = 0; i + 1 < input.size(); i += 2)
-	{
-		if (input[i] > input[i + 1])
-			pairs.push_back(std::make_pair(input[i], input[i + 1]));
-		else
-			pairs.push_back(std::make_pair(input[i + 1], input[i]));
-	}
-
-	// odd number
-	int odd = 0;
-	bool isOdd = input.size() % 2;
-	if (isOdd)
-		odd = input.back();
-
-	// --- main
-	std::vector<int> main;
-	for (size_t i = 0; i < pairs.size(); ++i)
-		main.push_back(pairs[i].first);
-
-	if (input.size() > 1)
-		main = fordJohnson(main);
-	std::cout << std::endl << "OUT" << std::endl;
-	// --- update first result
-	std::vector<int> result = main;
-
-	// positions of main (index)
-	std::vector<size_t> mainPos(pairs.size());
-
-	for (size_t i = 0; i < pairs.size(); ++i)
-	{
-		for (size_t j = 0; j < result.size(); ++j)
 		{
-			if (result[j] == pairs[i].first)
-			{
-				mainPos[i] = j;
-				break;
-			}
+			pairs.push_back(std::make_pair(main[i + 1], main[i]));
+			main.erase(main.begin() + i + 1);
 		}
 	}
-
-	// --- pent
-	std::vector<int> pent;
-	for (size_t i = 0; i < pairs.size(); ++i)
-		pent.push_back(pairs[i].second);
-
-	std::vector<size_t> jac = jacobsthalSequence(pent.size());
-	std::vector<bool> inserted(pent.size(), false);
-	// insertion
-	for (size_t i = 1; i < jac.size(); ++i)
+	if (main.size() > 1)
+		fordJhonson(pairs);
+    std::vector<size_t> jac = jacobsthal(main.size());
+	std::vector<T> new_main;
+	typename std::vector<T>::iterator it;
+	for (size_t i = 0; i < pairs.size(); i++)
 	{
-		std::cout << "		ROUND " << i;
-		print_v(result, "");
-		size_t idx = jac[i];
-		if (idx >= pent.size())
-			break ;
-		std::cout << "Index " << idx << std::endl;
-		if (!inserted[idx])
-		{
-			std::cout << "primero";
-			size_t pos = binarySearchIndex(result, pent[idx], mainPos[idx]);
-			std::cout << "	pos " << pos << std::endl;
-			result.insert(result.begin() + pos, pent[idx]);
-
-			// update postions
-			for (size_t k = pos; k < mainPos.size(); ++k)
-					mainPos[k]++;
-
-			inserted[idx] = true;
-			print_v(result, " ");
-		}
-		std::cout << "Index " << idx << std::endl;
-
-		for (int j = (int)idx - 1; j >= 0; --j)
-		{
-			std::cout << "segundo ";
-			if (!inserted[j])
-			{
-				std::cout << "yes ";
-				size_t pos = binarySearchIndex(result, pent[j], mainPos[j]);
-				std::cout << "	pos " << pos << std::endl;
-
-				result.insert(result.begin() + pos, pent[j]);
-
-				for (size_t k = pos; k < mainPos.size(); ++k)
-						mainPos[k]++;
-
-				inserted[j] = true;
-				print_v(result, "");
-			}
-			 std::cout << std::endl;
-		}
-		print_v(result, "		Round current");
+		new_main.push_back(pairs[jac[i]].second);
+		it = std::upper_bound(new_main.begin(), new_main.end(), pairs[jac[i]].first);
+		new_main.insert(it, pairs[jac[i]].second);
 	}
-
-	// lefts out
-	for (size_t i = 0; i < pent.size(); ++i)
-	{
-		if (!inserted[i])
-		{
-			size_t pos = binarySearchIndex(result, pent[i], mainPos[i]);
-
-			result.insert(result.begin() + pos, pent[i]);
-
-			for (size_t k = pos; k < mainPos.size(); ++k)
-					mainPos[k]++;
-		}
-	}
-
-	// odd
-	if (isOdd)
-	{
-		size_t pos = binarySearchIndex(result, odd, result.size());
-		result.insert(result.begin() + pos, odd);
-	}
-
-	return result;
+	main = new_main;
+	if (odd == NULL)
+		odd = NULL;
 }
 
 // public
@@ -218,7 +111,7 @@ void PmergeMe::calculate(char **av)
 	if (parse(av))
 		throw std::logic_error("invalid input");
 	if (_res.size() > 1)
-		_res = fordJohnson(_res);
+		fordJhonson(_res);
 }
 
 std::vector<int> PmergeMe::getRes() const { return _res; }
