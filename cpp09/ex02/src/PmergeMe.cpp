@@ -26,8 +26,8 @@ void print_v_p(std::vector< std::vector<void*> >& v, std::string str)
 		std::cout << *(int*)(v[i][0]);
 		if ((v[i][1]) == NULL)
 			std::cout << "N";
-		// else
-		// 	std::cout << "|" << *(int*)(v[i][1]);
+		else
+			std::cout << "|" << *(int*)(v[i][1]);
 		std::cout << " ";
 	}
 	std::cout << std::endl;
@@ -55,8 +55,19 @@ int PmergeMe::parse(char **av)
 		}
 		_res.push_back(std::atoi(av[i]));
 	}
+	std::vector< std::vector<void*> > res;
+	for (size_t i = 0; i < _res.size(); i++)
+	{
+		std::vector<void*> tmp;
+		tmp.push_back(NULL);
+		tmp.push_back(&_res[i]);
+		tmp.push_back(NULL);
+		_result.push_back(tmp);
+	}
 	return 0;
 }
+
+
 
 std::vector<size_t> jacobsthal(size_t n)
 {
@@ -83,29 +94,40 @@ void fordJhonson(TYPE& main)
 	}
 	for (size_t i = 0; i < main.size(); i++)
 	{
-		if (*(int *)(main[i][0]) > *(int *)(main[i + 1][0]))
+		if (*(int *)(main[i][1]) > *(int *)(main[i + 1][1]))
 		{
-			main[i][1] = main[i + 1][0];
+			main[i][0] = main[i + 1][1];
 			main.erase(main.begin() + i + 1);
 		}
 		else
 		{
-			main[i + 1][1] = main[i][0];
+			main[i + 1][0] = main[i][1];
 			main.erase(main.begin() + i);
 		}
 	}
-	print_v_p(main, "Pairs");
+	print_v_p(main, "	Pairs");
 	std::vector< std::vector<void*> > n_main;
 	for (size_t i = 0; i < main.size(); i++)
 	{
 		std::vector<void*> tmp;
 		tmp.push_back(main[i][0]);
+		std::cout << *(int*)(tmp[0]) << std::endl;
 		tmp.push_back(NULL);
-		tmp.push_back(&main[i]);
+		tmp.push_back(&(main[i]));
+		// std::cout << "inserted direction " << &(main[i]) << " == ";
+		// std::cout << ((TYPE*)(tmp[2])) << std::endl;
+		// std::cout << "next is same? " << (*(TYPEV*)&(main[i]))[1] << " ";
+		// std::cout << (*(TYPEV*)(tmp[2]))[1] << " ";
+		// std::cout << std::endl;
+		// std::cout << "n is same? " << *(int*)(*(TYPEV*)&(main[i]))[1] << " ";
+		// std::cout << *(int*)((*(TYPEV*)(tmp[2]))[1]) << " ";
+		// std::cout << std::endl;
 		n_main.push_back(tmp);
+		tmp.clear();
 	}
-	if (main.size() > 1)
-		fordJhonson(main);
+	std::cout << "ENTRA" << std::endl;
+	// if (n_main.size() > 1)
+	// 	fordJhonson(n_main);
 	std::cout << "VUELVE" << std::endl;
 	// bajar nivel de punteros | Insertion | odd
     // std::vector<size_t> jac = jacobsthal(main.size());
@@ -123,18 +145,26 @@ void fordJhonson(TYPE& main)
 	std::vector< std::vector<void*> > ret;
 	for (size_t i = 0; i < main.size(); i++)
 	{
-		std::cout << "1 pasa" << std::endl;
 		std::vector<void*> tmp;
-		std::cout << (*(TYPE*)(n_main[i][2]))[0][1] << std::endl;
-		tmp.push_back((*(TYPE*)(n_main[i][2]))[0][1]);
-		tmp.push_back(n_main[i][0]);
-		tmp.push_back((*(TYPE*)(n_main[i][2]))[0][2]);
+		// std::cout << "big " << n_main[i][0] << " ";
+		// std::cout << *(int*)(n_main[i][0]) << std::endl;
+		// std::cout << "little " << (int *)((*(TYPEV*)(n_main[i][2]))[1]) << " ";
+		// std::cout << *(int *)((*(TYPEV*)(n_main[i][2]))[1]) << std::endl;
+		tmp.push_back((*(TYPEV*)(n_main[i][2]))[0]);
+		tmp.push_back(NULL);//arreglar esto
+		tmp.push_back((*(TYPEV*)(n_main[i][2]))[0]);
+		tmp.push_back((*(TYPEV*)(n_main[i][2]))[1]);
+		// if ((*(TYPEV*)(n_main[i][2]))[2])
+		// {
+			std::cout << (*(TYPEV*)(n_main[i][2]))[2] << std::endl;
+			tmp.push_back((*(TYPEV*)(n_main[i][2]))[2]);
+		// }
 		ret.push_back(tmp);
-		std::cout << "3 pasa" << std::endl;
+		// tmp.clear();
+		print_v_p(ret, "	Pairs out");
 	}
-	std::cout << "1 pasa" << std::endl;
+	main = ret;
 	// print_v_p(ret, "Return");
-	std::cout << "2 pasa" << std::endl;
 }
 
 // public
@@ -143,25 +173,16 @@ void PmergeMe::calculate(char **av)
 {
 	if (parse(av))
 		throw std::logic_error("invalid input");
-	std::vector< std::vector<void*> > res;
-	for (size_t i = 0; i < _res.size(); i++)
-	{
-		std::vector<void*> tmp;
-		tmp.push_back(&_res[i]);
-		tmp.push_back(NULL);
-		tmp.push_back(NULL);
-		res.push_back(tmp);
-	}
-	if (_res.size() > 1)
-		fordJhonson(res);
+	if (_result.size() > 1)
+		fordJhonson(_result);
 }
 
-std::vector<int> PmergeMe::getRes() const { return _res; }
+TYPE PmergeMe::getRes() const { return _result; }
 
 std::ostream &operator<<(std::ostream &out, const PmergeMe &pm)
 {
-	std::vector<int> res = pm.getRes();
-	for (std::vector<int>::iterator i = res.begin(); i != res.end(); i++)
-		out << *i << " ";
+	TYPE res = pm.getRes();
+	for (size_t i = 0; i < res.size(); i++)
+		out << *(int*)(res[i][1]) << " ";
 	return out;
 }

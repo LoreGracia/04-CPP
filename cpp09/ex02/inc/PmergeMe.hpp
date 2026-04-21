@@ -9,12 +9,14 @@
 #include <deque>
 #include <cmath>
 
-#define TYPE std::vector< std::vector<void*> >
+#define TYPEV std::vector<void*>
+#define TYPE std::vector< TYPEV >
 
 class PmergeMe
 {
 	private:
 		std::vector<int> _res;
+		TYPE _result;
 		int					parse(char **av);
 		// template<typename T>
 		// std::vector<T>& fordJhonson(std::vector<T>& main);
@@ -27,7 +29,7 @@ class PmergeMe
 		PmergeMe& operator=(const PmergeMe& other);
 		~PmergeMe();
 
-		std::vector<int> getRes() const;
+		TYPE getRes() const;
 		void	calculate(char **av);
 };
 
