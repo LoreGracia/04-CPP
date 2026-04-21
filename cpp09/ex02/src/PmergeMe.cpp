@@ -152,8 +152,10 @@ void fordJhonson(TYPE& main)
 		// std::cout << *(int *)((*(TYPEV*)(n_main[i][2]))[1]) << std::endl;
 		tmp.push_back((*(TYPEV*)(n_main[i][2]))[0]);
 		tmp.push_back(NULL);//arreglar esto
-		tmp.push_back((*(TYPEV*)(n_main[i][2]))[0]);
+		ret.push_back(tmp);
+		tmp.clear();
 		tmp.push_back((*(TYPEV*)(n_main[i][2]))[1]);
+		tmp.push_back(NULL);//arreglar esto
 		// if ((*(TYPEV*)(n_main[i][2]))[2])
 		// {
 			std::cout << (*(TYPEV*)(n_main[i][2]))[2] << std::endl;
