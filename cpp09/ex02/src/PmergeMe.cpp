@@ -9,11 +9,11 @@ void print_vd(TYPE& v, std::string str)
 	{
 		if (!(v[0].big))
 			continue ;
-		Node d = (*reinterpret_cast<Node*>(v[i].big));
+		Node d = (*(v[i].big));
 		if (!d.litt)
 			std::cout << "N";
 		else
-			std::cout << (*reinterpret_cast<Node*>(d.litt)).head << "|";
+			std::cout << (*(d.litt)).head << "|";
 		std::cout << (d.head) << " ";
 	}
 	std::cout << std::endl;
@@ -27,7 +27,7 @@ void print_v(TYPE& v, std::string str)
 		if (!v[i].litt)
 			std::cout << "N";
 		else
-			std::cout << (*reinterpret_cast<Node*>(v[i].litt)).head << "|";
+			std::cout << (*(v[i].litt)).head << "|";
 		std::cout << (v[i].head) << " ";
 	}
 	std::cout << std::endl;
@@ -36,7 +36,7 @@ void print_v(TYPE& v, std::string str)
 //Node chanonical
 
 Node::Node() {}
-Node::Node(uintptr_t l, int h, uintptr_t b) : litt(l), head(h), big(b) {}
+Node::Node(Node* l, int h, Node* b) : litt(l), head(h), big(b) {}
 Node::Node(const Node& other) { *this = other; }
 Node& Node::operator=(const Node& other)
 {
@@ -96,75 +96,48 @@ std::vector<size_t> jacobsthal(size_t n)
 
 TYPE PmergeMe::fordJhonson(TYPE& original)
 {
-	print_v(original, "	Original");
-	print_vd(original, "inside RECURSION down");
 	TYPE main = *new TYPE(original);
-	print_vd(main, "inside RECURSION down");
 	Node* odd = 0;
 	if (main.size() % 2)
 	{
 		odd = new Node(original.back());
 		main.erase(main.end() - 1);
 	}
-	if (odd){
-		std::cout << "								ODD" << " ";
-		std::cout << (*odd).head << " "
-		// << (*(reinterpret_cast<Node*>((*odd).litt))).head
-		<< std::endl;
-		}
 	for (size_t i = 0; i < original.size()/2; i++)
 	{
 		if ((main[i].head) > (main[i + 1].head))
 		{
-			main[i].litt = reinterpret_cast<uintptr_t>(&original[i * 2 + 1]);
+			main[i].litt = (&original[i * 2 + 1]);
 			main.erase(main.begin() + i + 1);
 		}
 		else
 		{
-			main[i + 1].litt = reinterpret_cast<uintptr_t>(&original[i * 2]);
+			main[i + 1].litt = (&original[i * 2]);
 			main.erase(main.begin() + i);
-			// std::cout << "new litt " <<  *((*(Node*)(main[i].litt)).head) << std::endl;
 		}
 	}
-	print_v(main, "	Swap");
-	print_vd(main, "inside RECURSION down");
-	if (main[0].litt){
-		std::cout << (*reinterpret_cast<Node*>(main[0].litt)).head << " ";
-		std::cout << (*reinterpret_cast<Node*>(main[0].litt)).litt << std::endl;}
-	std::cout << "ENTRA" << std::endl;
 	TYPE recursion = *new TYPE;
 	TYPE ret;
 	if (main.size() > 1)
 	{
 		for (size_t i = 0; i < main.size(); i++)
 		{
-			recursion.push_back(*new Node(0, main[i].head, reinterpret_cast<uintptr_t>(&main[i])));
+			recursion.push_back(*new Node(0, main[i].head, (&main[i])));
 		}
-		print_v(main, "main upper");
-		print_vd(recursion, "RECURSION down");
 		ret = fordJhonson(recursion);
 	}
 	else
-		ret = *new TYPE(main);//AAAAAAAAAAAAAAAAAAA
+		ret = *new TYPE(main);
 	std::cout << "VUELVE" << std::endl;
-	// if (main[0].litt){
-	// std::cout << (*reinterpret_cast<Node*>(ret[0].litt)).head << " ";
-	// std::cout << (*reinterpret_cast<Node*>(ret[0].litt)).litt << std::endl;
-	// 	std::cout << (*reinterpret_cast<Node*>(main[0].litt)).head << " ";
-	// 	std::cout << (*reinterpret_cast<Node*>(main[0].litt)).litt << std::endl;}
-	// print_v(main, "	Swap");
 	print_v(ret, "	ret");
 	for (size_t i = 0; i < ret.size(); i++)
 	{
 		if (ret[i].litt)
 		{
 				//binary
-			// std::cout << " new little pair" << (*reinterpret_cast<Node*>(ret[i].litt)).head << " ";
-			// std::cout << (*reinterpret_cast<Node*>((*reinterpret_cast<Node*>(ret[i].litt)).litt)).head << std::endl;
-			// print_vd(ret, "INSERTIN");
-			ret.insert(ret.begin() + i, *reinterpret_cast<Node*>(ret[i].litt));
+			ret.insert(ret.begin() + i, *(ret[i].litt));
 			if (ret[i].big)
-				ret[i] = *reinterpret_cast<Node*>(ret[i].big);
+				ret[i] = *(ret[i].big);
 			i++;
 		}
 		if (ret[i].big)
@@ -172,17 +145,14 @@ TYPE PmergeMe::fordJhonson(TYPE& original)
 		else
 			ret[i].litt = 0;
 	}
-	// print_v(ret, "	Unpairs out");
 	print_v(ret, "	Unpairs out");
 	if (odd)
 	{
 		if ((*odd).big)
-			ret.push_back(*reinterpret_cast<Node*>((*odd).big));
+			ret.push_back(*((*odd).big));
 		else
 			ret.push_back(*odd);
 	}
-	print_v(ret, "	Unpairs out");
-	// original = *new TYPE(ret);
 	print_v(ret, "Return");
 	return ret;
 }

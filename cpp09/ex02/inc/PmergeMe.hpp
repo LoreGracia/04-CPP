@@ -15,11 +15,11 @@
 class Node
 {
 	public:
-		uintptr_t litt;
+		Node * litt;
 		int head;
-		uintptr_t big;
+		Node * big;
 		Node();
-		Node(uintptr_t l, int h, uintptr_t b);
+		Node(Node * l, int h, Node * b);
 		Node(const Node& other);
 		Node& operator=(const Node& other);
 		~Node();
