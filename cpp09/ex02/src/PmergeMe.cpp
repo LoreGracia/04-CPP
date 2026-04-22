@@ -148,6 +148,7 @@ TYPE PmergeMe::fordJhonson(TYPE& original)
 	print_v(ret, "	Unpairs out");
 	if (odd)
 	{
+		//binary
 		if ((*odd).big)
 			ret.push_back(*((*odd).big));
 		else
