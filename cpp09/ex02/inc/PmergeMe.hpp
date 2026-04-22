@@ -8,15 +8,22 @@
 #include <vector>
 #include <deque>
 #include <cmath>
+#include <stdint.h>
 
-#define TYPE std::vector< t_list >
+#define TYPE std::vector< Node >
 
-typedef struct s_list
+class Node
 {
-	void *litt;
-	int *head;
-	void *big;
-}			t_list;
+	public:
+		uintptr_t litt;
+		int head;
+		uintptr_t big;
+		Node();
+		Node(uintptr_t l, int h, uintptr_t b);
+		Node(const Node& other);
+		Node& operator=(const Node& other);
+		~Node();
+};
 
 class PmergeMe
 {
@@ -25,7 +32,7 @@ class PmergeMe
 		TYPE _original;
 		TYPE _result;
 		int					parse(char **av);
-		void				fordJhonson(TYPE& original);
+		TYPE				fordJhonson(TYPE& original);
 		size_t				binarySearchIndex(const std::vector<int>& arr, int value, size_t end);
 		std::vector<size_t>	jacobsthalSequence(size_t n);
 	public:
