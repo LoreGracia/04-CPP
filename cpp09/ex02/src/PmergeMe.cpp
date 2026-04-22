@@ -2,33 +2,16 @@
 
 // debug utils
 
-void print_pent(std::vector< std::vector<int> > pent)
-{
-	std::cout << "PENT: ";
-	for (std::vector< std::vector<int> >::iterator it = pent.begin(); it != pent.end(); it++)
-		std::cout << (*it)[0] << " ";
-	std::cout << std::endl;
-}
-
-void print_v(std::vector<int> v, std::string str)
-{
-	std::cout << str << ": ";
-	for (std::vector<int>::iterator it = v.begin(); it != v.end(); it++)
-		std::cout << *it << " ";
-	std::cout << std::endl;
-}
-
-void print_v_p(std::vector< std::vector<void*> >& v, std::string str)
+void print_v(TYPE& v, std::string str)
 {
 	std::cout << str << ": ";
 	for (size_t i = 0; i < v.size(); i++)
 	{
-		std::cout << *(int*)(v[i][0]);
-		if ((v[i][1]) == NULL)
+		if ((v[i].litt) == NULL)
 			std::cout << "N";
 		else
-			std::cout << "|" << *(int*)(v[i][1]);
-		std::cout << " ";
+			std::cout << *(*(t_list*)(v[i].litt)).head << "|";
+		std::cout << *(v[i].head) << " ";
 	}
 	std::cout << std::endl;
 }
@@ -37,7 +20,9 @@ PmergeMe::PmergeMe() {}
 PmergeMe::PmergeMe(const PmergeMe &other) { *this = other; }
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 {
-	_res = other._res;
+	_parsed = other._parsed;
+	_original = other._original;
+	_result = other._result;
 	return *this;
 }
 PmergeMe::~PmergeMe() {}
@@ -51,23 +36,21 @@ int PmergeMe::parse(char **av)
 		for (size_t j = 0; av[i][j]; j++)
 		{
 			if (!std::isdigit(av[i][j]))
-				return (_res.clear(), 1);
+				return (_parsed.clear(), 1);
 		}
-		_res.push_back(std::atoi(av[i]));
+		_parsed.push_back(std::atoi(av[i]));
 	}
 	std::vector< std::vector<void*> > res;
-	for (size_t i = 0; i < _res.size(); i++)
+	for (size_t i = 0; i < _parsed.size(); i++)
 	{
-		std::vector<void*> tmp;
-		tmp.push_back(NULL);
-		tmp.push_back(&_res[i]);
-		tmp.push_back(NULL);
-		_result.push_back(tmp);
+		t_list tmp;
+		tmp.litt = NULL;
+		tmp.head = &_parsed[i];
+		tmp.big = NULL;
+		_original.push_back(tmp);
 	}
 	return 0;
 }
-
-
 
 std::vector<size_t> jacobsthal(size_t n)
 {
@@ -83,90 +66,72 @@ std::vector<size_t> jacobsthal(size_t n)
     return j;
 }
 
-void fordJhonson(TYPE& main)
+void PmergeMe::fordJhonson(TYPE& original)
 {
-	std::vector<void*> odd;
-	odd.push_back(NULL);
+	print_v(original, "	Original");
+	TYPE main = original;
+	t_list* odd = NULL;
 	if (main.size() % 2)
 	{
-		odd[0] = &main.back();
+		odd = &original.back();
 		main.erase(main.end() - 1);
 	}
-	for (size_t i = 0; i < main.size(); i++)
+	for (size_t i = 0; i < original.size()/2; i++)
 	{
-		if (*(int *)(main[i][1]) > *(int *)(main[i + 1][1]))
+		if (*(main[i].head) > *(main[i + 1].head))
 		{
-			main[i][0] = main[i + 1][1];
+			t_list tmp = original[i * 2 + 1];
+			main[i].litt = &tmp;
 			main.erase(main.begin() + i + 1);
 		}
 		else
 		{
-			main[i + 1][0] = main[i][1];
+			t_list tmp = original[i * 2];
+			main[i + 1].litt = &tmp;
 			main.erase(main.begin() + i);
+			// std::cout << "new litt " <<  *((*(t_list*)(main[i].litt)).head) << std::endl;
 		}
 	}
-	print_v_p(main, "	Pairs");
-	std::vector< std::vector<void*> > n_main;
-	for (size_t i = 0; i < main.size(); i++)
-	{
-		std::vector<void*> tmp;
-		tmp.push_back(main[i][0]);
-		std::cout << *(int*)(tmp[0]) << std::endl;
-		tmp.push_back(NULL);
-		tmp.push_back(&(main[i]));
-		// std::cout << "inserted direction " << &(main[i]) << " == ";
-		// std::cout << ((TYPE*)(tmp[2])) << std::endl;
-		// std::cout << "next is same? " << (*(TYPEV*)&(main[i]))[1] << " ";
-		// std::cout << (*(TYPEV*)(tmp[2]))[1] << " ";
-		// std::cout << std::endl;
-		// std::cout << "n is same? " << *(int*)(*(TYPEV*)&(main[i]))[1] << " ";
-		// std::cout << *(int*)((*(TYPEV*)(tmp[2]))[1]) << " ";
-		// std::cout << std::endl;
-		n_main.push_back(tmp);
-		tmp.clear();
-	}
+	print_v(main, "	Swap");
 	std::cout << "ENTRA" << std::endl;
-	// if (n_main.size() > 1)
-	// 	fordJhonson(n_main);
-	std::cout << "VUELVE" << std::endl;
-	// bajar nivel de punteros | Insertion | odd
-    // std::vector<size_t> jac = jacobsthal(main.size());
-	// std::vector<T> new_main;
-	// typename std::vector<T>::iterator it;
-	// for (size_t i = 0; i < pairs.size(); i++)
-	// {
-	// 	new_main.push_back(pairs[jac[i]].second);
-	// 	it = std::upper_bound(new_main.begin(), new_main.end(), pairs[jac[i]].first);
-	// 	new_main.insert(it, pairs[jac[i]].second);
-	// }
-	// main = new_main;
-	// if (odd == NULL)
-	// 	odd = NULL;
-	std::vector< std::vector<void*> > ret;
-	for (size_t i = 0; i < main.size(); i++)
+	if (main.size() > 1)
 	{
-		std::vector<void*> tmp;
-		// std::cout << "big " << n_main[i][0] << " ";
-		// std::cout << *(int*)(n_main[i][0]) << std::endl;
-		// std::cout << "little " << (int *)((*(TYPEV*)(n_main[i][2]))[1]) << " ";
-		// std::cout << *(int *)((*(TYPEV*)(n_main[i][2]))[1]) << std::endl;
-		tmp.push_back((*(TYPEV*)(n_main[i][2]))[0]);
-		tmp.push_back(NULL);//arreglar esto
-		ret.push_back(tmp);
-		tmp.clear();
-		tmp.push_back((*(TYPEV*)(n_main[i][2]))[1]);
-		tmp.push_back(NULL);//arreglar esto
-		// if ((*(TYPEV*)(n_main[i][2]))[2])
-		// {
-			std::cout << (*(TYPEV*)(n_main[i][2]))[2] << std::endl;
-			tmp.push_back((*(TYPEV*)(n_main[i][2]))[2]);
-		// }
-		ret.push_back(tmp);
-		// tmp.clear();
-		print_v_p(ret, "	Pairs out");
+		TYPE recursion;
+		for (size_t i = 0; i < main.size(); i++)
+		{
+			t_list tmp;
+			tmp.litt = NULL;
+			tmp.head = main[i].head;
+			tmp.big = &main[i];
+			recursion.push_back(tmp);
+		}
+		fordJhonson(recursion);
+		main = recursion;
 	}
-	main = ret;
-	// print_v_p(ret, "Return");
+	std::cout << "VUELVE" << std::endl;
+	print_v(main, "	Swap");
+	TYPE ret = main;//AAAAAAAAAAAAAAAAAAA
+	print_v(main, "	Swap");
+	print_v(ret, "	ret");
+	size_t size = ret.size();
+	for (size_t i = 0; i < size; i++)
+	{
+		// if (ret[i].litt)
+		// {
+		// 	ret.insert(ret.begin() + i, *(t_list*)(ret[i].litt));
+		// 	i++;
+		// }
+		// if (ret[i].big)
+		// 	ret[i] = *(t_list*)(ret[i].big);
+		std::cout << "pasa 0 " << std::endl;
+	}
+	// print_v(ret, "	Unpairs out");
+	std::cout << "pasa 1 " << std::endl;
+	if (odd)
+		ret.push_back(*odd);
+	print_v(ret, "	Unpairs out");
+	original = ret;
+	print_v(ret, "Return");
 }
 
 // public
@@ -175,7 +140,8 @@ void PmergeMe::calculate(char **av)
 {
 	if (parse(av))
 		throw std::logic_error("invalid input");
-	if (_result.size() > 1)
+	_result = _original;
+	if (_original.size() > 1)
 		fordJhonson(_result);
 }
 
@@ -185,6 +151,6 @@ std::ostream &operator<<(std::ostream &out, const PmergeMe &pm)
 {
 	TYPE res = pm.getRes();
 	for (size_t i = 0; i < res.size(); i++)
-		out << *(int*)(res[i][1]) << " ";
+		out << *(res[i].head) << " ";
 	return out;
 }

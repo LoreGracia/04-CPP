@@ -9,18 +9,23 @@
 #include <deque>
 #include <cmath>
 
-#define TYPEV std::vector<void*>
-#define TYPE std::vector< TYPEV >
+#define TYPE std::vector< t_list >
+
+typedef struct s_list
+{
+	void *litt;
+	int *head;
+	void *big;
+}			t_list;
 
 class PmergeMe
 {
 	private:
-		std::vector<int> _res;
+		std::vector<int> _parsed;
+		TYPE _original;
 		TYPE _result;
 		int					parse(char **av);
-		// template<typename T>
-		// std::vector<T>& fordJhonson(std::vector<T>& main);
-		// std::vector<int>	fordJohnson(std::vector<int> input);
+		void				fordJhonson(TYPE& original);
 		size_t				binarySearchIndex(const std::vector<int>& arr, int value, size_t end);
 		std::vector<size_t>	jacobsthalSequence(size_t n);
 	public:
