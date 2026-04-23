@@ -187,7 +187,8 @@ TYPE* PmergeMe::fordJhonson(TYPE& original)
 				(*ret_p)[Iorder[Iorder[i]]] = *((*ret_p)[Iorder[i]].big);
 			std::cout << "A [" << i << "]" << Iorder[i] << " " << ((*ret_p)[Iorder[i]]).head << std::endl;
 			std::cout << "J " << it - i << std::endl;
-			for (size_t j = it - i; j < Iorder.size() + 1; j++){
+			for (size_t j = it; j < Iorder.size(); j++){
+				// if (Iorder[j] >= Iorder[it])
 					Iorder[j]++;
 			std::cout << "Iorder: ";
 			for (size_t i = 0; i < Iorder.size(); i++)
