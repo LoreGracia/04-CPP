@@ -30,18 +30,19 @@ class PmergeMe
 	private:
 		std::vector<int> _parsed;
 		TYPE _original;
-		TYPE _result;
+		std::vector<int> _result;
 		int					parse(char **av);
-		TYPE				fordJhonson(TYPE& original);
+		TYPE*				fordJhonson(TYPE& original);
 		size_t				binarySearchIndex(const std::vector<int>& arr, int value, size_t end);
-		std::vector<size_t>	jacobsthalSequence(size_t n);
+		void				jacobstalOrder(std::vector<int>& Iorder, size_t size);
+		// std::vector<size_t>	jacobsthalSequence(size_t n);
 	public:
 		PmergeMe();
 		PmergeMe(const PmergeMe& other);
 		PmergeMe& operator=(const PmergeMe& other);
 		~PmergeMe();
 
-		TYPE getRes() const;
+		std::vector<int> getRes() const;
 		void	calculate(char **av);
 };
 
