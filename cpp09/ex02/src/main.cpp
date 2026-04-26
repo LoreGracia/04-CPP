@@ -1,4 +1,5 @@
 #include "PmergeMe.hpp"
+size_t comp = 0;
 
 int main(int argc, char **argv)
 {
@@ -14,6 +15,7 @@ int main(int argc, char **argv)
 		std::cout << std::endl;
 		pm.calculate(++argv);
 		std::cout << "After:	" << pm << std::endl;
+		std::cout << comp << std::endl;
 	}
 	catch(const std::exception& e)
 	{

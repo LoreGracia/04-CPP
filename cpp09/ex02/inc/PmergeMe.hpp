@@ -9,6 +9,7 @@
 #include <deque>
 #include <cmath>
 #include <stdint.h>
+extern size_t comp;
 
 #define TYPE std::vector< Node >
 
