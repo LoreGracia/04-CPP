@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 		std::cout << std::endl;
 		pm.calculate(++argv);
 		std::cout << "After:	" << pm << std::endl;
-		std::cout << comp << std::endl;
+		std::cout << "Comparissions done: " << comp << std::endl;
 	}
 	catch(const std::exception& e)
 	{

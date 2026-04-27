@@ -180,77 +180,39 @@ TYPE* PmergeMe::fordJhonson(TYPE& original)
 	else
 		ret_p = new TYPE((*main_p));
 	delete main_p;
-	std::cout << "VUELVE" << std::endl << std::endl;
-	// print_v((*ret_p), "	ret_p");
 	std::vector < std::vector<size_t> > Iorder;
 	jacobstalOrder(Iorder, (*ret_p).size());
-	std::cout << "zero Iorder: ";
-	for (size_t i = 0; i < Iorder.size(); i++){
-		std::cout << " " << Iorder[i][0] << ":";
-		for (size_t j = 1; j < Iorder[i].size(); j++)
-			std::cout << Iorder[i][j] << "_";
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 	size_t iLitt = 0;
 	for (size_t i = 0; i < Iorder.size(); iLitt++)
 	{
-		print_v((*ret_p), "A	Round");
-		std::cout << "A [" << i << "][" << iLitt << "]"<< Iorder[i][iLitt] << " " << ((*ret_p)[Iorder[i][iLitt]]).head << std::endl;
 		if (((*ret_p)[Iorder[i][iLitt]]).litt)
 		{
 			size_t it = bynarysearch(Iorder[i][iLitt], *ret_p, (*((*ret_p)[Iorder[i][iLitt]].litt)).head);
 			(*ret_p).insert((*ret_p).begin() + it, *((*ret_p)[Iorder[i][iLitt]].litt));
 			if (((*ret_p)[it]).big)
 				(*ret_p)[it] = *((*ret_p)[it].big);
-			std::cout << "A mid Iorder: ";
-			for (size_t i = 0; i < Iorder.size(); i++){
-				std::cout << " " << Iorder[i][0] << ":";
-				for (size_t j = 1; j < Iorder[i].size(); j++)
-					std::cout << Iorder[i][j] << "_";
-			}
-			std::cout << std::endl;
 			size_t limit = Iorder[i][iLitt] - it + 1 + iLitt;
-			std::cout << "LIMIT " << limit << std::endl;
-			std::cout << "LIMIT " << Iorder[i][iLitt] << " - " << it << " + " <<  1 << " + " <<  iLitt << std::endl;
-			std::cout << "DIFF " << Iorder[i][iLitt] - it << std::endl;
 			for (size_t j = iLitt; j < limit && j < Iorder[i].size(); j++){
-				std::cout << "inLIMIT " << limit << std::endl;
 				Iorder[i][j]++;
 				if (j + 1 < Iorder[i].size())
 					limit -= (Iorder[i][j] - 2) - Iorder[i][j + 1];
-				// std::cout << " restar a " << limit << " -= " << (Iorder[i][j] - 2) - Iorder[i][j + 1] << " = " << Iorder[i][j] << " - " << 2 << " - " <<  Iorder[i][j + 1] << std::endl;
 			}
 			for (size_t j = i + 1; j < Iorder.size(); j++)
 			{
-				std::cout << "*****************************pasa" << std::endl;
 				for (size_t jLitt = 0; jLitt < Iorder[j].size(); jLitt++)
 					Iorder[j][jLitt]++;
 			}
-				std::cout << "B mid Iorder: ";
-				for (size_t i = 0; i < Iorder.size(); i++){
-					std::cout << " " << Iorder[i][0] << ":";
-					for (size_t j = 1; j < Iorder[i].size(); j++)
-						std::cout << Iorder[i][j] << "_";
-				}
-			std::cout << std::endl;
-			std::cout << std::endl;
 		}
-		std::cout << "B [" << i << "]" << Iorder[i][iLitt] << " " << ((*ret_p)[Iorder[i][iLitt]]).head << std::endl;
 		if ((*ret_p)[Iorder[i][iLitt]].big)
 			(*ret_p)[Iorder[i][iLitt]] = *(Node*)((*ret_p)[Iorder[i][iLitt]].big);
 		else
 			(*ret_p)[Iorder[i][iLitt]].litt = 0;
-		print_v((*ret_p), "B	Round");
-		// std::cout << std::endl;
 		if (iLitt == Iorder[i].size() - 1)
-		{ 
-			// std::cout << "pasa" << std::endl;
+		{
 			i++;
 			iLitt = -1;
 		}
 	}
-	print_v((*ret_p), "Unpairs out");
 	if (odd)
 	{
 		size_t it = bynarysearch((*ret_p).size(), *ret_p, (*odd).head);
@@ -260,7 +222,6 @@ TYPE* PmergeMe::fordJhonson(TYPE& original)
 			(*ret_p).insert((*ret_p).begin() + it, (*odd));
 		}
 		delete odd;
-	print_v((*ret_p), "return");
 	return ret_p;
 }
 
