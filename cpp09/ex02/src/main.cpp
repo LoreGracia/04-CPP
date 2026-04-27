@@ -21,7 +21,7 @@ void	print_expected(int argc)
 		int part2 = (1 << fl) / 3;
 		int part3 = fl / 2;
 		int result = part1 - part2 + part3;
-		std::cout << "Max comparissions expected:	" << result << std::endl;
+		std::cout << "Max ±1 or ±2 comparissions expected:	" << result << std::endl;
 }
 
 int main(int argc, char **argv)
@@ -33,20 +33,28 @@ int main(int argc, char **argv)
 	{
 		PmergeMeV pmV;
 		PmergeMeD pmD;
-		std::cout << "Before:	";
+		std::cout << "Before:		";
 		for (int i = 1; i != argc; i++)
 			std::cout << argv[i] << " ";
 		std::cout << std::endl;
 		++argv;
+		std::clock_t initv = std::clock();
 		pmV.calculate(argv);
-		std::cout << "pasa" << std::endl;
+		std::clock_t endv = std::clock();
+		std::clock_t initd = std::clock();
 		pmD.calculate(argv);
-		std::cout << "pasa" << std::endl;
+		std::clock_t endd = std::clock();
 		std::cout << "V After:	" << pmV << std::endl;
 		std::cout << "D After:	" << pmD << std::endl;
-		std::cout << "V Comparissions done:		" << compv << std::endl;
-		std::cout << "D Comparissions done:		" << compd << std::endl;
-		print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram
+		std::cout << "V Comparissions done:			" << compv << std::endl;
+		std::cout << "D Comparissions done:			" << compd << std::endl;
+		double vtime = (double(endv - initv) / CLOCKS_PER_SEC)* 1000000.0;
+		double dtime = (double(endd - initd) / CLOCKS_PER_SEC)* 1000000.0;
+
+		std::cout << "V Time µs: " << vtime << std::endl;
+		std::cout << "D Time µs: " << dtime << std::endl;
+
+		print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram error de margen ±1 o ±2
 	}
 	catch(const std::exception& e)
 	{

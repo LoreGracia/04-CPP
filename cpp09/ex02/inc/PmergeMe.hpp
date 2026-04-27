@@ -3,12 +3,14 @@
 #include <string>
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <exception>
 #include <algorithm>
 #include <vector>
 #include <deque>
 #include <cmath>
 #include <stdint.h>
+#include <ctime>
 extern size_t compv;
 
 #define TYPE_V std::vector< Node_V >
