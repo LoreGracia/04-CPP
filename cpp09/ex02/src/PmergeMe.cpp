@@ -214,9 +214,13 @@ TYPE* PmergeMe::fordJhonson(TYPE& original)
 			std::cout << "LIMIT " << limit << std::endl;
 			std::cout << "LIMIT " << Iorder[i][iLitt] << " - " << it << " + " <<  1 << " + " <<  iLitt << std::endl;
 			std::cout << "DIFF " << Iorder[i][iLitt] - it << std::endl;
-			for (size_t j = iLitt; j < limit && j < Iorder[i].size(); j++)
+			for (size_t j = iLitt; j < limit && j < Iorder[i].size(); j++){
+				std::cout << "inLIMIT " << limit << std::endl;
 				Iorder[i][j]++;
-				
+				if (j + 1 < Iorder[i].size())
+					limit -= (Iorder[i][j] - 2) - Iorder[i][j + 1];
+				// std::cout << " restar a " << limit << " -= " << (Iorder[i][j] - 2) - Iorder[i][j + 1] << " = " << Iorder[i][j] << " - " << 2 << " - " <<  Iorder[i][j + 1] << std::endl;
+			}
 			for (size_t j = i + 1; j < Iorder.size(); j++)
 			{
 				std::cout << "*****************************pasa" << std::endl;
@@ -266,7 +270,7 @@ void PmergeMe::calculate(char **av)
 {
 	if (parse(av))
 		throw std::logic_error("invalid input");
-	TYPE* result;
+	TYPE* result = &_original;
 	if (_original.size() > 1)
 		result = fordJhonson(_original);
 	for (size_t i = 0; i < (*result).size(); i++)
