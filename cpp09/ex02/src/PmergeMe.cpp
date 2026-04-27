@@ -120,7 +120,8 @@ void	PmergeMe::jacobstalOrder(std::vector < std::vector<size_t> >& Iorder, size_
 	tmp.clear();
 	if (Iorder.back()[0] < size)
 	{
-		for (size_t i = Iorder.back()[0] + 1; i != size; i++){
+		for (size_t i = Iorder.back()[0] + 1; i != size; i++)
+		{
 			tmp.push_back(i);
 			Iorder.push_back(tmp);
 			tmp.clear();
