@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 {
 	(void)argc;
 	if (argc == 1)
-		return (std::cout << "Missing arguments: ./PmergeMe 3 6 5 34 1 32 59 42 4\n", 1);
+		return (std::cout << "Missing arguments: ./PmergeMe 3 6 5 34 1 32 59 42 4 or ./PmergeMe $(shuf -ri 1-3000 -n 10)\n", 1);
 	try
 	{
 		PmergeMeV pmV;
