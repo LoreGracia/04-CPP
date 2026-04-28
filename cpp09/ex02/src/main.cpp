@@ -50,11 +50,10 @@ int main(int argc, char **argv)
 		std::cout << "D Comparissions done:			" << compd << std::endl;
 		double vtime = (double(endv - initv) / CLOCKS_PER_SEC)* 1000000.0;
 		double dtime = (double(endd - initd) / CLOCKS_PER_SEC)* 1000000.0;
+		print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram error de margen ±1 o ±2
 
 		std::cout << "V Time µs: " << vtime << std::endl;
 		std::cout << "D Time µs: " << dtime << std::endl;
-
-		print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram error de margen ±1 o ±2
 	}
 	catch(const std::exception& e)
 	{
