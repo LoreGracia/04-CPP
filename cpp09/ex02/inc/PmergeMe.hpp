@@ -36,7 +36,6 @@ class PmergeMeV
 		std::vector<size_t> _result;
 		int					parse(char **av);
 		TYPE_V*				fordJhonson(TYPE_V& original);
-		size_t				binarySearchIndex(const std::vector<size_t>& arr, size_t value, size_t end);
 		void				jacobstalOrder(std::vector < std::vector<size_t> >& Iorder, size_t size);
 		std::vector<size_t>	jacobsthal(size_t n);
 		size_t				bynarysearch(size_t i, TYPE_V ret, size_t n);
@@ -79,7 +78,6 @@ class PmergeMeD
 		std::deque<size_t> _result;
 		int					parse(char **av);
 		TYPE_D*				fordJhonson(TYPE_D& original);
-		size_t				binarySearchIndex(const std::deque<size_t>& arr, size_t value, size_t end);
 		void				jacobstalOrder(std::deque < std::deque<size_t> >& Iorder, size_t size);
 		std::deque<size_t>	jacobsthal(size_t n);
 		size_t				bynarysearch(size_t i, TYPE_D ret, size_t n);

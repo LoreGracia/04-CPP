@@ -142,14 +142,14 @@ std::string	Btc::getQuantity()
 	for (size_t i = 13; i < tmp.size(); ++i)
 	{
 		if (!std::isdigit(tmp[i]) && tmp[i] != '.')
-			return q;
+			return print_error("not a positive number"), q;
 		if (tmp[i] == '.')
 			flag++;
 		if (flag > 1)
 			return print_error("yeah right, too many point"), "";
 	}
 	q = tmp.substr(13, tmp.size() - 13);
-	if (std::strtof(q.c_str(), NULL) > std::numeric_limits<int>::max())
+	if (std::strtof(q.c_str(), NULL) > 1000)
 		return print_error("too large a number"), "";
 	return q;
 }
@@ -229,10 +229,7 @@ void	Btc::findPrize(std::string input)
 		}
 		value = getQuantity();
 		if (value.empty())
-		{
-			print_error("not a positive number");
 			continue ;
-		}
 		print_prize(tmp.substr(0, 10) +  " => " + value + " = ");
 	}
 }

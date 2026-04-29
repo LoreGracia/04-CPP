@@ -7,30 +7,29 @@ RPN::~RPN() {}
 
 std::stack<char>& RPN::parse(std::string str, std::stack<char>& s)
 {
-	
 	if (str.empty())
 		throw std::logic_error("empty input");
-	for (size_t i = str.size() - 1; i != 0; i--)
+	for (int i = str.size() - 1; i != -1; i--)
 	{
-		if (i != str.size() - 1 && str[i] != ' ')
+		if (i != (int)(str.size() - 1) && str[i] != ' ')
 			throw std::logic_error("too many consecutive characters");
 		while (i && str[i] == ' ')
 			--i;
+		if (i == -1)
+			return s;
 		if (std::isdigit(str[i]))
 			s.push(str[i]);
 		else if (str[i] == '-' || str[i] == '+' || str[i] == '/' || str[i] == '*')
 			s.push(str[i]);
 		else
 			throw std::logic_error("unaccepted character");
-		if (!i)
-			return s;
 	}
 	return s;
 }
 
 int	RPN::execute(std::stack<char> *s, int a)
 {
-	int b;
+	int b = - 1;
 	char sign;
 	if (s->empty())
 		throw std::logic_error("incomplete formula");
@@ -50,8 +49,8 @@ int	RPN::execute(std::stack<char> *s, int a)
 			sign = s->top();
 			s->pop();
 		}
-		else
-			throw std::logic_error("incomplete formula");
+		if (sign && b == -1)
+			throw std::logic_error("incorrect order");
 		switch (sign)
 		{
 		case '+':
@@ -64,11 +63,13 @@ int	RPN::execute(std::stack<char> *s, int a)
 			a = a * b;
 			break;
 		case '/':
+			if (!b)
+				throw std::logic_error("not possible");
 			a = a / b;
 			break;
 		
 		default:
-			throw std::logic_error("2unaccepted character");
+			throw std::logic_error("unaccepted character");
 		}
 		if (!s->empty() && (s->top() == '-' || s->top() == '+' || s->top() == '/' || s->top() == '*'))
 			return a;
@@ -82,5 +83,8 @@ int	RPN::calculate(std::string str)
 	parse(str, s);
 	int a = std::atoi(&s.top());
 	s.pop();
-	return execute(&s, a);
+	a = execute(&s, a);
+	if (!s.empty())
+		throw std::logic_error("what are you doing with those consecutive signs");
+	return a;
 }
