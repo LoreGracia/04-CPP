@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	// {
 	// 	std::cerr << "Error: " << e.what() << "\033[0m" << std::endl;
 	// }
-	std::cout << std::endl;
+	//std::cout << std::endl;
 	try
 	{
 		RPN rpn;

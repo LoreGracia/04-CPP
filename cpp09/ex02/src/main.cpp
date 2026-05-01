@@ -26,14 +26,13 @@ void	print_expected(int argc)
 
 int main(int argc, char **argv)
 {
-	(void)argc;
 	if (argc == 1)
 		return (std::cout << "Missing arguments: ./PmergeMe 3 6 5 34 1 32 59 42 4 or ./PmergeMe $(shuf -ri 1-3000 -n 10)\n", 1);
 	try
 	{
 		PmergeMeV pmV;
 		PmergeMeD pmD;
-		std::cout << "Before:		";
+		std::cout << "Before:	";
 		for (int i = 1; i != argc; i++)
 			std::cout << argv[i] << " ";
 		std::cout << std::endl;
@@ -44,16 +43,16 @@ int main(int argc, char **argv)
 		std::clock_t initd = std::clock();
 		pmD.calculate(argv);
 		std::clock_t endd = std::clock();
-		std::cout << "V After:	" << pmV << std::endl;
-		std::cout << "D After:	" << pmD << std::endl;
-		std::cout << "V Comparissions done:			" << compv << std::endl;
-		std::cout << "D Comparissions done:			" << compd << std::endl;
+		std::cout << "After:	" << pmV << std::endl;
+		//std::cout << "V After:	" << pmV << std::endl;
+		//std::cout << "D After:	" << pmD << std::endl;
+		//std::cout << "V Comparissions done:			" << compv << std::endl;
+		//std::cout << "D Comparissions done:			" << compd << std::endl;
+		//print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram error de margen ±1 o ±2
 		double vtime = (double(endv - initv) / CLOCKS_PER_SEC)* 1000000.0;
 		double dtime = (double(endd - initd) / CLOCKS_PER_SEC)* 1000000.0;
-		print_expected(argc);// calculate fordJohnson expected comparisions n⌈log2​(3n/4​)⌉−⌊(2^⌊log2​(6n)⌋)/3​⌋+⌊log2​(6n)/2​⌋ with Wolfram error de margen ±1 o ±2
-
-		std::cout << "V Time µs: " << vtime << std::endl;
-		std::cout << "D Time µs: " << dtime << std::endl;
+		std::cout << "Time to process a range of " << argc - 1 << " elements with std::vector : " << vtime << "µs" << std::endl;
+		std::cout << "Time to process a range of " << argc - 1 << " elements with std::deque : " << dtime << "µs" << std::endl;
 	}
 	catch(const std::exception& e)
 	{
